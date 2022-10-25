@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const rootRouter = require("./src/routes/index");
 const sequelize = require("./src/config/connectDatabase");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("swagger-jsdoc");
 require("dotenv").config();
 let cors = require("cors");
 const app = express();
@@ -20,6 +22,7 @@ app.get("/", (req, res) => {
     res.send("From ptnm with love!");
 });
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
