@@ -6,12 +6,12 @@ module.exports = {
             id: {
                 allowNull: false,
                 autoIncrement: true,
-                primaryKey: true,
                 type: Sequelize.INTEGER,
+                primaryKey: true,
             },
             courseId: {
                 type: Sequelize.INTEGER,
-                references: { model: "courses", key: "id" },
+                references: {model: "courses", key:"id"},
             },
             exam15: {
                 type: Sequelize.FLOAT,
@@ -26,14 +26,14 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 references: { model: "students", key: "id" },
             },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-            },
+            // createdAt: {
+            //     allowNull: false,
+            //     type: Sequelize.DATE,
+            // },
+            // updatedAt: {
+            //     allowNull: false,
+            //     type: Sequelize.DATE,
+            // },
         });
     },
     async down(queryInterface, Sequelize) {
