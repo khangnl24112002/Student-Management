@@ -5,7 +5,7 @@ const createStudentService = async (data) => {
         name,
         gender,
         date,
-        adress,
+        address,
         email,
         classId,
     } = data;
@@ -16,7 +16,7 @@ const createStudentService = async (data) => {
                 name,
                 gender,
                 date,
-                adress,
+                address,
                 email,
                 classId
             });
@@ -28,11 +28,11 @@ const createStudentService = async (data) => {
     });
 };
 
-const deleteStudentService = async (id) => {
+const deleteStudentService = async (studentId) => {
     return new Promise(async (resolve, reject) => {
-        const student = await Stuent.findOne({
+        const student = await Student.findOne({
             where: {
-                id,
+                id: studentId,
             },
         });
         if (student) {
@@ -43,15 +43,15 @@ const deleteStudentService = async (id) => {
         }
     });
 };
-const getStudentsService = async (type) => {
+const getStudentsService = async (studentId) => {
     return new Promise(async (resolve, reject) => {
-        if (type === -1) {
+        if (studentId === -1) {
             const allStudents = await Student.findAll();
             resolve(allStudents);
         } else {
             const student = await Student.findOne({
                 where: {
-                    id: type,
+                    id: studentId,
                 },
             });
             if (student) {
@@ -67,7 +67,7 @@ const updateStudentService = async (data) => {
         name,
         gender,
         date,
-        adress,
+        address,
         email,
         classId
     } = data;
@@ -80,7 +80,7 @@ const updateStudentService = async (data) => {
                 name,
                 gender,
                 date,
-                adress,
+                address,
                 email,
                 classId
             });

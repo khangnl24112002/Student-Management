@@ -1,8 +1,10 @@
-const { convertImage } = require("../middlewares/convertToBase64");
-const { createStudentService, deleteStudentService, getStudentsService, updateStudentService, getListClassStudentsService } = require("../services/studentServices")
-
-
-
+const { 
+    createStudentService, 
+    deleteStudentService, 
+    getStudentsService, 
+    updateStudentService, 
+    getListClassStudentsService } 
+    = require("../services/studentServices")
 
 const createStudentController = async (req,res) => {
     
