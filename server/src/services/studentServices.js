@@ -1,14 +1,7 @@
-const { Student,sequelize } = require("../models/index");
-const { QueryTypes } = require('sequelize');
+const { Student, sequelize } = require("../models/index");
+const { QueryTypes } = require("sequelize");
 const createStudentService = async (data) => {
-    const {
-        name,
-        gender,
-        date,
-        address,
-        email,
-        classId,
-    } = data;
+    const { name, gender, date, address, email, classId } = data;
 
     return new Promise(async (resolve, reject) => {
         try {
@@ -18,7 +11,7 @@ const createStudentService = async (data) => {
                 date,
                 address,
                 email,
-                classId
+                classId,
             });
 
             resolve(newStudent);
@@ -62,15 +55,8 @@ const getStudentsService = async (studentId) => {
         }
     });
 };
-const updateStudentService = async (data) => {
-    const {
-        name,
-        gender,
-        date,
-        address,
-        email,
-        classId
-    } = data;
+const updateStudentService = async (id, data) => {
+    const { name, gender, date, address, email, classId } = data;
     return new Promise(async (resolve, reject) => {
         const student = await Student.findOne({
             where: { id },
@@ -82,46 +68,46 @@ const updateStudentService = async (data) => {
                 date,
                 address,
                 email,
-                classId
+                classId,
             });
             await student.save();
             resolve(student);
         } else {
-            reject({})
+            reject({});
         }
     });
 };
-const getListClassStudentsService = async (limit,classId) => {
-    return new Promise(async (resolve,reject) => {
+const getListClassStudentsService = async (limit, classId) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            const query = await sequelize.query("SELECT COUNT(*) as number FROM `students` where type = ?",{
-                replacements:[`${type}`],
-                type:QueryTypes.SELECT
-            })
-            if(limit > query[0].number) {
-                reject("Out of range.")
+            const query = await sequelize.query(
+                "SELECT COUNT(*) as number FROM `students` where type = ?",
+                {
+                    replacements: [`${type}`],
+                    type: QueryTypes.SELECT,
+                }
+            );
+            if (limit > query[0].number) {
+                reject("Out of range.");
             } else {
                 const classStudents = await Student.findAll({
                     limit,
                     where: {
-                        type
+                        type,
                     },
-                    raw:true,
-                })
-                if(classStudents.length === 0) {
-                    reject("Not found.")
+                    raw: true,
+                });
+                if (classStudents.length === 0) {
+                    reject("Not found.");
                 } else {
                     resolve(classStudents);
                 }
             }
-        } catch(e) {
-            reject("Error from sever.")
+        } catch (e) {
+            reject("Error from sever.");
         }
-        
-        
-
-    })
-}
+    });
+};
 module.exports = {
     createStudentService,
     deleteStudentService,
