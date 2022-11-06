@@ -6,19 +6,20 @@ const {
     updateUserService,
 } = require("../services/userServices");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const Register = async (req, res) => {
     try {
         const newUser = await createUser(req.body);
         const token = jwt.sign(
             {
                 id: newUser.id,
+                username: newUser.username,
             },
             process.env.TOKEN_SECRET_KEY,
             {
                 expiresIn: "24h",
             }
         );
-
         res.status(200).send({
             statusCode: 200,
             token,
@@ -40,6 +41,7 @@ const Login = async (req, res) => {
             const token = jwt.sign(
                 {
                     id: user.detail.id,
+                    username: user.detail.username,
                 },
                 process.env.TOKEN_SECRET_KEY,
                 {
@@ -82,7 +84,6 @@ const getAllUsers = async (req, res) => {
 };
 const deleteUser = async (req, res) => {
     const { id } = req.query;
-    console.log(id);
     try {
         const user = await deleteUserService(id);
         res.status(200).send({

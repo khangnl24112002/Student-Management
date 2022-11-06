@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
                 as: "students",
                 foreignKey: "ClassId",
             });
-            Class.belongsTo(models.grade, {
+            Class.belongsTo(models.Grade, {
                 foreignKey: "GradeId",
-                constraints: false,
+                as: "grades",
             });
         }
     }
