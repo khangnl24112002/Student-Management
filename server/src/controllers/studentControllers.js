@@ -15,9 +15,9 @@ const createStudentController = async (req, res) => {
         });
     } catch (e) {
         console.log(e);
-        res.status(500).send({
-            statusCode: 500,
-            "message:": "Something went wrong.",
+        res.status(400).send({
+            statusCode: 400,
+            "message:": "Class is full.",
         });
     }
 };
@@ -50,7 +50,7 @@ const getStudentController = async (req, res) => {
         console.log(e);
         res.status(404).send({
             statusCode: 404,
-            "message:": "Not found.",
+            "message:": "Not found",
         });
     }
 };
@@ -64,17 +64,35 @@ const updateStudentController = async (req, res) => {
         });
     } catch (e) {
         console.log(e);
-        res.status(404).send({
-            statusCode: 404,
-            "message:": "Not found.",
+        res.status(400).send({
+            statusCode: 400,
+            "message:": "class is full.",
         });
     }
 };
+
+const getListClassStudentsController = async(req, res) => {
+    const className  = req.query;
+
+    try{
+        const students = await getListClassStudentsService(className);
+        res.status(200).send({
+            statusCode: 200,
+            data: students,
+        })
+    } catch(e){
+        console.log(e);
+        res.status(404).send({
+            statusCode: 404,
+            "message:": "Not found.",
+        })
+    }
+}
 
 module.exports = {
     createStudentController,
     deteteStudentController,
     getStudentController,
     updateStudentController,
-    
+    getListClassStudentsController,
 };
