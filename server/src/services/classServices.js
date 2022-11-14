@@ -110,10 +110,33 @@ const getListGradeClassesService = async (gradeName) => {
     });
 };
 
+const getAllClassesService = async() => {
+    return new Promise(async(resolve, reject) => {
+        try {
+
+            const classes = await Class.findAll({
+                raw: true,
+            })
+
+            if (classes.length === 0){
+                reject("Not found.");
+            } else {
+                resolve(classes);
+            }
+
+        } catch(e)
+        {
+            reject("Error from sever.");
+        }
+    })
+}
+
+
 module.exports = {
     getClassesService,
     createClassService,
     deleteClassService,
     updateClassService,
     getListGradeClassesService,
+    getAllClassesService,
 };
