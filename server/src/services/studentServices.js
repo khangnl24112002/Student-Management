@@ -19,9 +19,6 @@ const createStudentService = async (data) => {
                 }
             );
 
-            console.debug(max[0].number);
-            console.debug(count>=max[0].number);
-
             if (count>=max[0].number)
                 reject(false);
             else
