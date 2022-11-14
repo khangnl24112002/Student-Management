@@ -7,6 +7,6 @@ const { userRouter } = require("./userRoute");
 const rootRouter = express.Router();
 rootRouter.use("/users", userRouter);
 rootRouter.use("/students", studentRouter);
-rootRouter.use("/class", classRouter);
+rootRouter.use("/classes", classRouter);
 rootRouter.use("/grades", gradeRouter);
 module.exports = rootRouter;

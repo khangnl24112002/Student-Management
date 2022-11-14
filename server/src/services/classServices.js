@@ -1,4 +1,6 @@
 const { Class, sequelize } = require("../models/index");
+const { QueryTypes } = require("sequelize");
+
 
 const getClassesService = async (clasID) => {
     return new Promise(async (resolve, reject) => {
@@ -72,9 +74,46 @@ const updateClassService = async (id, data) => {
     });
 };
 
+const getListGradeClassesService = async (gradeName) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+
+            const gradeId = await sequelize.query(
+                "SELECT id as gradeId FROM `grades` WHERE `name` = ?",
+                {
+                    replacements: [`${gradeName.name}`],
+                    type: QueryTypes.SELECT,
+                }
+            )
+
+            console.log(gradeId[0].gradeId);
+            
+            const gradeClasses = await Class.findAll({
+                where: {
+                    gradeId : gradeId[0].gradeId,
+                },
+                raw: true,
+            });
+            
+
+            if (gradeClasses.length === 0) {
+                reject("Not found.");
+            } else {
+                resolve(gradeClasses);
+            }
+
+
+        } catch (e) {
+            reject("Error from sever.");
+        }
+    });
+};
+
 module.exports = {
     getClassesService,
     createClassService,
     deleteClassService,
     updateClassService,
+    getListGradeClassesService,
 };
