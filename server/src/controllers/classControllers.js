@@ -5,6 +5,7 @@ const {
     updateClassService,
     getListGradeClassesService,
     getAllClassesService,
+    getNotFullClassesService,
 } = require("../services/classServices");
 
 const getClassController = async (req, res) => {
@@ -105,6 +106,22 @@ const getAllClassesController = async(req,res) => {
     }
 }
 
+const getNotFullClassesController = async(req,res) => {
+    try{
+        const classes = await getNotFullClassesService();
+        res.status(200).send({
+            statusCode: 200,
+            data: classes,
+        })
+    } catch(e){
+        console.log(e);
+        res.status(404).send({
+            statusCode: 404,
+            "message:": "Not found.",
+        })
+    }
+}
+
 module.exports = {
     getClassController,
     createClassController,
@@ -112,4 +129,5 @@ module.exports = {
     updateClassController,
     getListGradeClassesController,
     getAllClassesController,
+    getNotFullClassesController,
 };

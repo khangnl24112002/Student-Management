@@ -6,6 +6,7 @@ const {
     updateClassController, 
     getListGradeClassesController,
     getAllClassesController,
+    getNotFullClassesController,
 } =  require("../controllers/classControllers");
 const { getListGradeClassesService } = require("../services/classServices");
 
@@ -17,6 +18,7 @@ classRouter.delete('/deleteClass',deleteClassController);
 classRouter.put('/updateClass',updateClassController);
 classRouter.get('/getListGradeClasses', getListGradeClassesController)
 classRouter.get('/getAllClasses', getAllClassesController)
+classRouter.get('/getNotFullClasses', getNotFullClassesController)
 
 module.exports = {
     classRouter,
