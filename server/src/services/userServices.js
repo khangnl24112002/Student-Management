@@ -2,14 +2,14 @@ const { User } = require("../models/index.js");
 const bcrypt = require("bcrypt");
 
 const createUser = async (data) => {
-    const { username, password } = data;
+    const { username, password, role } = data;
     return new Promise(async (resolve, reject) => {
         try {
             const salt = bcrypt.genSaltSync(10);
             const hashPassword = bcrypt.hashSync(password, salt);
             const newUser = await User.create({
                 username,
-
+                role,
                 password: hashPassword,
             });
 

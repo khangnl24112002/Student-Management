@@ -6,6 +6,8 @@ const {
     getListGradeClassesService,
     getAllClassesService,
     getNotFullClassesService,
+    getClassCurSizeService,
+    changeClassService,
 } = require("../services/classServices");
 
 const getClassController = async (req, res) => {
@@ -72,56 +74,88 @@ const updateClassController = async (req, res) => {
     }
 };
 
-const getListGradeClassesController = async(req, res) => {
-    const gradeName  = req.query;
-
-    try{
+const getListGradeClassesController = async (req, res) => {
+    const gradeName = req.query;
+    console.log(gradeName);
+    try {
         const classes = await getListGradeClassesService(gradeName);
         res.status(200).send({
             statusCode: 200,
             data: classes,
-        })
-    } catch(e){
+        });
+    } catch (e) {
         console.log(e);
         res.status(404).send({
             statusCode: 404,
             "message:": "Not found.",
-        })
+        });
     }
-}
+};
 
-const getAllClassesController = async(req,res) => {
-    try{
+const getAllClassesController = async (req, res) => {
+    try {
         const classes = await getAllClassesService();
         res.status(200).send({
             statusCode: 200,
             data: classes,
-        })
-    } catch(e){
+        });
+    } catch (e) {
         console.log(e);
         res.status(404).send({
             statusCode: 404,
             "message:": "Not found.",
-        })
+        });
     }
-}
+};
 
-const getNotFullClassesController = async(req,res) => {
-    try{
+const getNotFullClassesController = async (req, res) => {
+    try {
         const classes = await getNotFullClassesService();
         res.status(200).send({
             statusCode: 200,
             data: classes,
-        })
-    } catch(e){
+        });
+    } catch (e) {
         console.log(e);
         res.status(404).send({
             statusCode: 404,
             "message:": "Not found.",
-        })
+        });
     }
-}
+};
 
+const getClassCurSizeController = async (req, res) => {
+    const gradeName = req.query;
+    try {
+        const data = await getClassCurSizeService(gradeName);
+        res.status(200).send({
+            statusCode: 200,
+            data,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({
+            statusCode: 500,
+            "message:": "Something went wrong.",
+        });
+    }
+};
+const changeClassController = async (req, res) => {
+    const { classId, studentId } = req.query;
+    try {
+        const data = await changeClassService(studentId, classId);
+        res.status(200).send({
+            statusCode: 200,
+            data,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({
+            statusCode: 500,
+            "message:": e,
+        });
+    }
+};
 module.exports = {
     getClassController,
     createClassController,
@@ -130,4 +164,6 @@ module.exports = {
     getListGradeClassesController,
     getAllClassesController,
     getNotFullClassesController,
+    getClassCurSizeController,
+    changeClassController,
 };
