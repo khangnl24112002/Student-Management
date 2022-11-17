@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
             exam45: DataTypes.FLOAT,
             examFinal: DataTypes.FLOAT,
             studentId: DataTypes.INTEGER,
+            semesterOne: DataTypes.BOOLEAN,
+            semesterTwo: DataTypes.BOOLEAN,
         },
         {
             sequelize,

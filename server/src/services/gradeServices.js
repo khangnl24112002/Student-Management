@@ -15,7 +15,26 @@ const createGradeService = async (data) => {
         }
     });
 };
-
+const getGradesService = (id) => {
+    return new Promise(async (resolve, reject) => {
+        if (id === -1) {
+            const allClasses = await Grade.findAll();
+            resolve(allClasses);
+        } else {
+            const grade = await Grade.findOne({
+                where: {
+                    id,
+                },
+            });
+            if (grade) {
+                resolve(grade);
+            } else {
+                reject({});
+            }
+        }
+    });
+};
 module.exports = {
     createGradeService,
+    getGradesService,
 };

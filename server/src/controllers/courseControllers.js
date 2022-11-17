@@ -1,15 +1,14 @@
 const {
-    createGradeService,
-    getGradesService,
-} = require("../services/gradeServices");
+    createCourseService,
+    getCoursesService,
+} = require("../services/courseServices");
 
-const createGradeController = async (req, res) => {
-    console.log(req.body);
+const createCourseController = async (req, res) => {
     try {
-        const newGrade = await createGradeService(req.body);
+        const course = await createCourseService(req.body);
         res.status(200).send({
             statusCode: 200,
-            data: newGrade,
+            data: course,
         });
     } catch (e) {
         console.log(e);
@@ -19,13 +18,13 @@ const createGradeController = async (req, res) => {
         });
     }
 };
-const getGradeController = async (req, res) => {
+const getCoursesController = async (req, res) => {
     const { id } = req.query;
     try {
-        const grades = await getGradesService(+id);
+        const courses = await getCoursesService(+id);
         res.status(200).send({
             statusCode: 200,
-            data: grades,
+            data: courses,
         });
     } catch (e) {
         console.log(e);
@@ -36,6 +35,6 @@ const getGradeController = async (req, res) => {
     }
 };
 module.exports = {
-    createGradeController,
-    getGradeController,
+    createCourseController,
+    getCoursesController,
 };

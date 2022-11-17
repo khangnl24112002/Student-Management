@@ -71,23 +71,23 @@ const updateStudentController = async (req, res) => {
     }
 };
 
-const getListClassStudentsController = async(req, res) => {
-    const className  = req.query;
+const getListClassStudentsController = async (req, res) => {
+    const className = req.query;
 
-    try{
+    try {
         const students = await getListClassStudentsService(className);
         res.status(200).send({
             statusCode: 200,
             data: students,
-        })
-    } catch(e){
+        });
+    } catch (e) {
         console.log(e);
         res.status(404).send({
             statusCode: 404,
             "message:": "Not found.",
-        })
+        });
     }
-}
+};
 
 module.exports = {
     createStudentController,

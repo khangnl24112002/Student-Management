@@ -206,20 +206,20 @@ const changeClassService = (studentId, nameClass) => {
             ) {
                 reject("Can not change class.");
             } else {
-                let numberStudent = getCurrentStudentOfClass.numberStudent - 1;
-                await getCurrentStudentOfClass.update({
-                    numberStudent,
-                });
+                // let numberStudent = getCurrentStudentOfClass.numberStudent - 1;
+                // await getCurrentStudentOfClass.update({
+                //     numberStudent,
+                // });
                 await getCurrentStudentOfClass.save();
                 await student.update({
                     classId,
                 });
 
                 await student.save();
-                await getMaxSizeOfClass.update({
-                    numberStudent: getMaxSizeOfClass.numberStudent + 1,
-                });
-                await getMaxSizeOfClass.save();
+                // await getMaxSizeOfClass.update({
+                //     numberStudent: getMaxSizeOfClass.numberStudent + 1,
+                // });
+                // await getMaxSizeOfClass.save();
                 resolve("Update successfully");
             }
         } catch (e) {

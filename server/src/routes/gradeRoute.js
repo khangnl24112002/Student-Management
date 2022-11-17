@@ -1,9 +1,13 @@
 const express = require("express");
-const { createGradeController } = require("../controllers/gradeController");
+const {
+    createGradeController,
+    getGradeController,
+} = require("../controllers/gradeController");
 
 const gradeRouter = express.Router();
 
 gradeRouter.post("/createGrade", createGradeController);
+gradeRouter.get("/getGrades", getGradeController);
 
 module.exports = {
     gradeRouter,
