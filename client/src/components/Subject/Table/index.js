@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Table.module.sass";
 import cn from "classnames";
 import Row from "./Row";
@@ -11,18 +11,12 @@ const Table = ({
     data,
     nameClass,
     gradeId,
+    handleChange,
+    multipleScoreUpdate,
 }) => {
     const [activeId, setActiveId] = useState(data[0]?.id);
 
     const [selectedFilters, setSelectedFilters] = useState([]);
-
-    const handleChange = (id) => {
-        if (selectedFilters.includes(id)) {
-            setSelectedFilters(selectedFilters.filter((x) => x !== id));
-        } else {
-            setSelectedFilters((selectedFilters) => [...selectedFilters, id]);
-        }
-    };
 
     return (
         <div className={cn(styles.wrapper, className)}>
@@ -46,10 +40,11 @@ const Table = ({
                         activeId={activeId}
                         setActiveId={setActiveId}
                         value={selectedFilters.includes(x.id)}
-                        onChange={() => handleChange(x.id)}
+                        handleChange={handleChange(x)}
                         pathname={pathname}
                         nameClass={nameClass}
                         gradeId={gradeId}
+                        multipleScoreUpdate={multipleScoreUpdate}
                     />
                 ))}
             </div>

@@ -37,6 +37,10 @@ const navigation = [
                 counter: "2",
                 colorCounter: "#FFBC99",
             },
+            {
+                title: "Create Class",
+                url: "/createClass",
+            },
         ],
     },
     {
@@ -90,6 +94,10 @@ const navigation = [
             {
                 title: "Physical Education",
                 url: "/subject/PhysicalEducation",
+            },
+            {
+                title: "Create Course",
+                url: "/createCourse",
             },
         ],
     },

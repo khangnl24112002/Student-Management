@@ -61,7 +61,6 @@ const createScoreService = async (data) => {
 const createMultipleScoreService = async (data) => {
     data = await Promise.all(
         data.map(async (item, index) => {
-            console.log(item);
             try {
                 const student = await Student.findOne({
                     where: {
@@ -190,11 +189,15 @@ const getScoreForStudentByCourse = (id, courseId, semesterOne, semesterTwo) => {
                     semesterOne,
                     semesterTwo,
                 },
+                raw: true,
             });
             if (scores) {
                 resolve(scores);
             } else {
-                reject({});
+                resolve({
+                    studentId: id,
+                    courseId,
+                });
             }
         } catch (e) {
             reject(e);
@@ -209,6 +212,7 @@ const getAVGScoreByCourseService = (
 ) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log(className);
             const { id: classId, gradeId } = await Class.findOne({
                 where: {
                     name: className,
@@ -221,6 +225,7 @@ const getAVGScoreByCourseService = (
                     name: courseName,
                 },
             });
+
             let students = await Student.findAll({
                 where: {
                     classId,
@@ -229,17 +234,58 @@ const getAVGScoreByCourseService = (
             });
             students = await Promise.all(
                 students.map(async (student) => {
-                    return await getScoreForStudentByCourse(
-                        student.id,
-                        courseId,
-                        semesterOne,
-                        semesterTwo
-                    );
+                    try {
+                        const data = await getScoreForStudentByCourse(
+                            student.id,
+                            courseId,
+                            semesterOne,
+                            semesterTwo
+                        );
+                        console.log(data);
+                        return {
+                            ...data,
+                            name: student.name,
+                            gender: student.gender,
+                        };
+                    } catch (e) {
+                        reject(e);
+                    }
                 })
             );
             resolve(students);
         } catch (e) {
+            console.log(e);
             reject(e);
+        }
+    });
+};
+const getAllStudentScoreService = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const students = await Student.findAll({
+                raw: true,
+            });
+            const studentScores = await Promise.all(
+                students.map(async (student) => {
+                    const score = await getAVGScoreService(student.id);
+                    const className = await Class.findOne({
+                        where: {
+                            id: student.classId,
+                        },
+                        raw: true,
+                    });
+                    return {
+                        ...student,
+                        avg: score.avg,
+                        type: score.type,
+                        className: className.name,
+                    };
+                })
+            );
+            resolve(studentScores);
+        } catch (e) {
+            console.log(e);
+            reject("Error from sever.");
         }
     });
 };
@@ -261,7 +307,6 @@ const getAVGScoreService = (id) => {
             scores.map(async (score) => {
                 let avgScore =
                     (score.exam15 + score.exam45 * 2 + score.examFinal * 3) / 6;
-                console.log(avgScore);
                 const course = await Course.findOne({
                     where: {
                         id: score.courseId,
@@ -308,20 +353,21 @@ const getAVGScoreService = (id) => {
             avgTerm1 !== 0 && avgTerm2 !== 0
                 ? Math.round((avgTerm2 + avgTerm1) / 2)
                 : 0;
+        let type = "";
         if (avg < 5 && avg > 0) {
-            avg = "Below average";
+            type = "Below average";
         } else if (avg >= 5 && avg <= 6.5) {
-            avg = "Average";
+            type = "Average";
         } else if (avg > 6.5 && avg <= 8) {
-            avg = "Fairly good";
+            type = "Fairly good";
         } else if (avg > 8 && avg <= 9) {
-            avg = "Good";
+            type = "Good";
         } else if (avg > 9 && avg <= 10) {
-            avg = "Excellent";
+            type = "Excellent";
         } else {
-            avg = "Null";
+            type = "Null";
         }
-        resolve({ scores, avgTerm1, avgTerm2, avg });
+        resolve({ scores, avgTerm1, avgTerm2, avg, type });
         try {
         } catch (e) {
             reject(e);
@@ -336,4 +382,5 @@ module.exports = {
     createMultipleScoreService,
     getAVGScoreService,
     getAVGScoreByCourseService,
+    getAllStudentScoreService,
 };

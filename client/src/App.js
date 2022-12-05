@@ -5,12 +5,14 @@ import Page from "./components/Page";
 import StudentList from "./components/StudentList";
 import StudentAdmission from "./components/NewProduct";
 import Grades from "./components/Grades";
-// import Edit from "./components/Edit";
 import Edit from "./components/Grades/Edit";
 import Subject from "./components/Subject";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import StudentDetail from "./components/StudentList/Edit";
+import EditScore from "./components/Subject/NameAndDescription";
+import CreateClass from "./components/CreateClass/NameAndDescription";
+import CreateCourse from "./components/CreateCourse/NameAndDescription";
 function App() {
     return (
         <Router>
@@ -61,6 +63,30 @@ function App() {
                     element={
                         <Page title="Subject">
                             <Subject />
+                        </Page>
+                    }
+                />
+                <Route
+                    path="/edit/score/:subjectName"
+                    element={
+                        <Page title="Edit Score">
+                            <EditScore />
+                        </Page>
+                    }
+                />
+                <Route
+                    path="/createClass"
+                    element={
+                        <Page title="Class">
+                            <CreateClass />
+                        </Page>
+                    }
+                />
+                <Route
+                    path="/createCourse"
+                    element={
+                        <Page title="Course">
+                            <CreateCourse />
                         </Page>
                     }
                 />

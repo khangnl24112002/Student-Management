@@ -10,6 +10,8 @@ export const studentServices = {
         axiosClient.get(
             `scores/avgScoreByCourse?courseName=${courseName}&nameClass=${nameClass}&semesterOne=${semesterOne}&semesterTwo=${semesterTwo}`
         ),
+    createStudent: (params) =>
+        axiosClient.post(`students/createStudent`, params),
 };
 
 export const classesServices = {
@@ -22,4 +24,8 @@ export const classesServices = {
             `classes/changeClass?studentId=${studentId}&classId=${classId}`
         ),
     getClass: (id) => axiosClient.get(`classes/getClass?id=${id}`),
+    getClassNotFull: () => axiosClient.get(`classes/getNotFullClasses`),
+    createClass: (params) => axiosClient.post(`classes/createClass`, params),
+    getClassNumberStudent: (name) =>
+        axiosClient.get(`classes/getClassNumberStudent?name=${name}`),
 };

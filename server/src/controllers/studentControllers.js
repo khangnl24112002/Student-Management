@@ -39,7 +39,6 @@ const deteteStudentController = async (req, res) => {
 };
 const getStudentController = async (req, res) => {
     const { id } = req.query;
-    console.log(id);
     try {
         const student = await getStudentsService(+id);
         res.status(200).send({

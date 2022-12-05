@@ -9,6 +9,8 @@ const {
     getNotFullClassesController,
     getClassCurSizeController,
     changeClassController,
+    getAllStudentScoreController,
+    getClassNumberStudent,
 } = require("../controllers/classControllers");
 const { getListGradeClassesService } = require("../services/classServices");
 
@@ -23,6 +25,7 @@ classRouter.get("/getAllClasses", getAllClassesController);
 classRouter.get("/getNotFullClasses", getNotFullClassesController);
 classRouter.get("/getClassCurSize", getClassCurSizeController);
 classRouter.put("/changeClass", changeClassController);
+classRouter.get("/getClassNumberStudent", getClassNumberStudent);
 module.exports = {
     classRouter,
 };

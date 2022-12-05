@@ -21,17 +21,19 @@ const getClassesService = async (clasID) => {
 };
 
 const createClassService = async (data) => {
-    const { gradeID, name } = data;
+    const { gradeID, name, numberStudent } = data;
 
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
                 gradeID,
+                numberStudent,
                 name: name.toUpperCase(),
             });
 
             resolve(newClass);
         } catch (e) {
+            console.log(e);
             reject(false);
         }
     });
@@ -55,10 +57,21 @@ const deleteClassService = async (classid) => {
 
 const updateClassService = async (id, data) => {
     const { gradeID, name, numberStudent } = data;
+    let classes = null;
     return new Promise(async (resolve, reject) => {
-        const classes = await Class.findOne({
-            where: { id },
-        });
+        if (id === "undefined") {
+            console.log("here1");
+            classes = await Class.findOne({
+                where: { name: name },
+            });
+            console.log(classes);
+        } else {
+            console.log("here2");
+            classes = await Class.findOne({
+                where: { id },
+            });
+        }
+
         if (classes) {
             await classes.update({
                 gradeID,
@@ -228,6 +241,25 @@ const changeClassService = (studentId, nameClass) => {
         }
     });
 };
+const getClassNumberStudentService = (name) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const classInfo = await Class.findOne({
+                where: {
+                    name,
+                },
+            });
+            if (classInfo) {
+                resolve(classInfo);
+            } else {
+                reject(false);
+            }
+        } catch (e) {
+            console.log(e);
+            reject(false);
+        }
+    });
+};
 module.exports = {
     getClassesService,
     createClassService,
@@ -238,4 +270,5 @@ module.exports = {
     getNotFullClassesService,
     getClassCurSizeService,
     changeClassService,
+    getClassNumberStudentService,
 };

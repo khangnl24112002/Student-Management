@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Row.module.sass";
 import cn from "classnames";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../../TextInput";
 const Row = ({
     item,
     value,
@@ -11,10 +12,13 @@ const Row = ({
     activeId,
     setActiveId,
     pathname,
+    handleChange,
+    multipleScoreUpdate,
 }) => {
     const handleClick = (id) => {
-        console.log(id);
-        navigate(`/student-detail/${id}`, { state: { item } });
+        navigate(`/edit/score/${item.studentId}`, {
+            state: { item },
+        });
     };
     const navigate = useNavigate();
     return (
@@ -54,16 +58,6 @@ const Row = ({
                         {item.examFinal}
                     </div>
                 </div>
-                {/* <div className={styles.col}>
-                    <div className={styles.score}>
-                        <div className={styles.scoreBold}>{item.avg}</div>
-                    </div>
-                </div>
-                <div className={styles.col}>
-                    <div className={styles.score}>
-                        <div className={styles.scoreBold}>{item.type}</div>
-                    </div>
-                </div> */}
             </div>
         </>
     );

@@ -6,6 +6,7 @@ const {
     createMultipleScoreService,
     getAVGScoreService,
     getAVGScoreByCourseService,
+    getAllStudentScoreService,
 } = require("../services/scoreServices");
 
 const getScoreController = async (req, res) => {
@@ -90,15 +91,15 @@ const updateScoreController = async (req, res) => {
 const getAVGScoreController = async (req, res) => {
     const { id } = req.query;
     try {
-        const { scores, avgTerm1, avgTerm2, avg } = await getAVGScoreService(
-            +id
-        );
+        const { scores, avgTerm1, avgTerm2, avg, type } =
+            await getAVGScoreService(+id);
         res.status(200).send({
             statusCode: 200,
             data: scores,
             avgTerm1,
             avgTerm2,
             avg,
+            type,
         });
     } catch (e) {
         console.log(e);
@@ -110,7 +111,6 @@ const getAVGScoreController = async (req, res) => {
 };
 const getAVGScoreByCourseController = async (req, res) => {
     const { courseName, nameClass, semesterOne, semesterTwo } = req.query;
-    console.log(courseName);
     try {
         const data = await getAVGScoreByCourseService(
             courseName,
@@ -130,7 +130,21 @@ const getAVGScoreByCourseController = async (req, res) => {
         });
     }
 };
-
+const getAllStudentScoreController = async (req, res) => {
+    try {
+        const data = await getAllStudentScoreService();
+        res.status(200).send({
+            statusCode: 200,
+            data,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({
+            statusCode: 500,
+            "message:": e,
+        });
+    }
+};
 module.exports = {
     getScoreController,
     createScoreController,
@@ -139,4 +153,5 @@ module.exports = {
     createMultipleScoreController,
     getAVGScoreController,
     getAVGScoreByCourseController,
+    getAllStudentScoreController,
 };

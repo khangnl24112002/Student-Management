@@ -4,7 +4,6 @@ const {
 } = require("../services/gradeServices");
 
 const createGradeController = async (req, res) => {
-    console.log(req.body);
     try {
         const newGrade = await createGradeService(req.body);
         res.status(200).send({

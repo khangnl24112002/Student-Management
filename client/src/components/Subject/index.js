@@ -20,7 +20,6 @@ const Subject = () => {
     const { pathname } = useLocation();
     let [space, typeEdit, courseName] = pathname.split("/");
     const [students, setStudents] = useState([]);
-    console.log(pathname);
     let classList = useRef(null);
     useEffect(() => {
         async function getClass() {
@@ -75,8 +74,41 @@ const Subject = () => {
             }
         }
         getScoreByCourse();
+        console.log("change");
     }, [className, term, courseName]);
-    console.log(classOptions);
+    const [multipleScoreUpdate, setmultipleScoreUpdate] = useState({
+        courseId: null,
+        exam15: null,
+        exam45: null,
+        examFinal: null,
+        studentId: null,
+        semester: term === "Semester 1" ? "SemesterOne" : "SemesterTwo",
+    });
+    const editStudentScore = useRef([]);
+
+    const handleChange = (item) => (e) => {
+        console.log(e.target.name, e.target.value);
+        multipleScoreUpdate[e.target.name] = e.target.value;
+        if (
+            editStudentScore.current.some(
+                (element) => element.studentId === item.studentId
+            )
+        ) {
+            const index = editStudentScore.current.findIndex(
+                (element) => element.studentId === item.studentId
+            );
+            editStudentScore.current[index] = multipleScoreUpdate;
+        } else {
+            editStudentScore.current.push(multipleScoreUpdate);
+        }
+        setmultipleScoreUpdate({
+            ...multipleScoreUpdate,
+            courseId: item.courseId,
+            studentId: item.studentId,
+        });
+    };
+    console.log(editStudentScore.current);
+
     return (
         <>
             <Card
@@ -108,12 +140,9 @@ const Subject = () => {
                         setActiveTable={setVisible}
                         pathname={typeEdit}
                         data={students}
+                        handleChange={handleChange}
+                        multipleScoreUpdate={multipleScoreUpdate}
                     />
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.col}>
-                        <NameAndDescription className={styles.card} />
-                    </div>
                 </div>
             </Card>
         </>

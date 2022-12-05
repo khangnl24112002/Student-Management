@@ -1,28 +1,36 @@
 const { Student, Class, sequelize } = require("../models/index");
 const { QueryTypes } = require("sequelize");
-const e = require("express");
 
 const createStudentService = async (data) => {
-    const { name, gender, date, address, email, classId } = data;
+    let { name, gender, date, address, email, classId } = data;
 
     return new Promise(async (resolve, reject) => {
         try {
-                const count = await Student.count({
-                where: {classId}
+            if (typeof classId !== "number") {
+                const { id } = await Class.findOne({
+                    where: {
+                        name: classId,
+                    },
+                });
+                classId = id;
+            }
+            const count = await Student.count({
+                where: { classId },
             });
-
-            const max = await sequelize.query(
-                "SELECT `numberStudent` as number FROM `classes` WHERE `id` = ?",
-                {
-                    replacements: [`${classId}`],
-                    type: QueryTypes.SELECT,
-                }
-            );
-
-            if (count>=max[0].number)
-                reject(false);
-            else
-                {
+            const { numberStudent } = await Class.findOne({
+                where: {
+                    id: classId,
+                },
+            });
+            // const max = await sequelize.query(
+            //     "SELECT `numberStudent` as number FROM `classes` WHERE `id` = ?",
+            //     {
+            //         replacements: [`${classId}`],
+            //         type: QueryTypes.SELECT,
+            //     }
+            // );
+            if (count >= numberStudent) reject(false);
+            else {
                 const newStudent = await Student.create({
                     name,
                     gender,
@@ -33,15 +41,13 @@ const createStudentService = async (data) => {
                 });
 
                 resolve(newStudent);
-                }
-
             }
-        catch (e) {
+        } catch (e) {
+            console.log(e);
             reject(false);
         }
     });
 };
-
 
 const deleteStudentService = async (studentId) => {
     return new Promise(async (resolve, reject) => {
@@ -84,9 +90,8 @@ const updateStudentService = async (id, data) => {
             where: { id },
         });
         if (student) {
-
             const count = await Student.count({
-                where: {classId}
+                where: { classId },
             });
 
             const max = await sequelize.query(
@@ -97,9 +102,8 @@ const updateStudentService = async (id, data) => {
                 }
             );
 
-            if (count>=max[0].number)
-                reject({});
-            
+            if (count >= max[0].number) reject({});
+
             await student.update({
                 name,
                 gender,
@@ -110,18 +114,6 @@ const updateStudentService = async (id, data) => {
             });
             await student.save();
             resolve(student);
-            
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            //CHÚ Ý CHÚ Ý CHÚ Ý CHÚ Ý CHÚ Ý
-
-            //console.debug(name, classId); địt mẹ sao nó chạy tới đây mà vẫn gửi reject?
-
-            //CHÚ Ý CHÚ Ý CHÚ Ý CHÚ Ý CHÚ Ý
-
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
         } else {
             reject({});
         }
@@ -130,20 +122,17 @@ const updateStudentService = async (id, data) => {
 const getListClassStudentsService = async (className) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(className);
             const classId = await sequelize.query(
                 "SELECT id as classId FROM `classes` WHERE `name` = ?",
                 {
                     replacements: [`${className.name}`],
                     type: QueryTypes.SELECT,
                 }
-            )
+            );
 
-            console.log(classId[0].classId);
-            
             const classStudents = await Student.findAll({
                 where: {
-                    classId : classId[0].classId,
+                    classId: classId[0].classId,
                 },
                 raw: true,
             });
@@ -151,7 +140,6 @@ const getListClassStudentsService = async (className) => {
                 reject("Not found.");
             } else {
                 resolve(classStudents);
-                
             }
         } catch (e) {
             reject("Error from sever.");

@@ -8,6 +8,8 @@ const {
     getNotFullClassesService,
     getClassCurSizeService,
     changeClassService,
+    getAllStudentScoreService,
+    getClassNumberStudentService,
 } = require("../services/classServices");
 
 const getClassController = async (req, res) => {
@@ -59,6 +61,7 @@ const deleteClassController = async (req, res) => {
 };
 const updateClassController = async (req, res) => {
     const { id } = req.query;
+    console.log(id);
     try {
         const classes = await updateClassService(+id, req.body);
         res.status(200).send({
@@ -76,7 +79,6 @@ const updateClassController = async (req, res) => {
 
 const getListGradeClassesController = async (req, res) => {
     const gradeName = req.query;
-    console.log(gradeName);
     try {
         const classes = await getListGradeClassesService(gradeName);
         res.status(200).send({
@@ -156,6 +158,23 @@ const changeClassController = async (req, res) => {
         });
     }
 };
+const getClassNumberStudent = async (req, res) => {
+    const { name } = req.query;
+    try {
+        const data = await getClassNumberStudentService(name);
+        res.status(200).send({
+            statusCode: 200,
+            data,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({
+            statusCode: 500,
+            "message:": e,
+        });
+    }
+};
+
 module.exports = {
     getClassController,
     createClassController,
@@ -166,4 +185,5 @@ module.exports = {
     getNotFullClassesController,
     getClassCurSizeController,
     changeClassController,
+    getClassNumberStudent,
 };
