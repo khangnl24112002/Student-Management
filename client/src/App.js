@@ -14,12 +14,20 @@ import EditScore from "./components/Subject/NameAndDescription";
 import CreateClass from "./components/CreateClass/NameAndDescription";
 import CreateCourse from "./components/CreateCourse/NameAndDescription";
 import Statistics from "./components/Statistics/index";
+import Dashboard from "./components/Dashboard/index";
 function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<SignIn />} />
-                <Route path="/home" element={<Page title="Dashboard"></Page>} />
+                <Route
+                    path="/home"
+                    element={
+                        <Page title="Dashboard">
+                            <Dashboard />
+                        </Page>
+                    }
+                />
                 <Route
                     path="/students/add"
                     element={

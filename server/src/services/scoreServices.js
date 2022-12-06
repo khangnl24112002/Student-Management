@@ -374,6 +374,50 @@ const getAVGScoreService = (id) => {
         }
     });
 };
+const getSemesterSummaryService = (semesterOne, semesterTwo) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            results = [];
+            const classes = await Class.findAll();
+
+            for (let i = 0; i < classes.length; i++) {
+                passCount = 0;
+
+                students = await Student.findAll({
+                    where: { classId: classes[i].id },
+                });
+
+                numOfStudents = students.length;
+                for (let j = 0; j < numOfStudents; j++) {
+                    score = await getAVGScoreService(students[j].id);
+
+                    console.debug("hk1: " + score.avgTerm1);
+                    console.debug("hk2: " + score.avgTerm2);
+
+                    if (semesterOne == 1 && semesterTwo == 0) {
+                        if (score.avgTerm1 >= 5) passCount++;
+                    } else {
+                        if (score.avgTerm2 >= 5) passCount++;
+                    }
+                }
+
+                let ratio = passCount / students.length;
+                classInfo = {
+                    className: classes[i].name,
+                    numOfStudents: numOfStudents,
+                    numOfPass: passCount,
+                    ratio: Math.round(ratio * 100) + "%",
+                };
+                results.push(classInfo);
+            }
+            if (results) resolve(results);
+            else reject({});
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createScoreService,
     deleteScoreService,
@@ -383,4 +427,5 @@ module.exports = {
     getAVGScoreService,
     getAVGScoreByCourseService,
     getAllStudentScoreService,
+    getSemesterSummaryService,
 };

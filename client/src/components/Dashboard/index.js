@@ -14,51 +14,31 @@ import {
 
 const termOptions = ["Semester 1", "Semester 2"];
 const Subject = () => {
-    const [courses, setCourses] = useState("");
     const [term, setTerm] = useState(termOptions[0]);
     const [score, setScore] = useState([]);
     const [visible, setVisible] = useState(false);
-    const [courseOptions, setCourseOptions] = useState(["10A1"]);
     const { pathname } = useLocation();
     let [space, typeEdit, courseName] = pathname.split("/");
-    const [students, setStudents] = useState([]);
     let classList = useRef(null);
     const [formCourseUpdate, setFormCourseUpdate] = useState({
-        courseName: "Math",
         semesterOne: 1,
         semesterTwo: 0,
     });
-    useEffect(() => {
-        async function getCourses() {
-            try {
-                let { data } = await classesServices.getCourses(-1);
-                data = data.map((item) => item.name);
-                data = [...new Set(data)];
-                setCourses(data[0]);
-                setCourseOptions(data);
-            } catch (e) {
-                console.log(e);
-                setCourseOptions([]);
-            }
-        }
-        getCourses();
-    }, []);
+
     console.log(formCourseUpdate);
     useEffect(() => {
         setFormCourseUpdate({
             ...formCourseUpdate,
-            courseName: courses,
             semesterOne: term === "Semester 1" ? 1 : 0,
             semesterTwo: term === "Semester 2" ? 1 : 0,
         });
-    }, [term, courses]);
+    }, [term]);
 
     const handleChange = (item) => (e) => {};
     const clickHandler = async (e) => {
         try {
             console.log(formCourseUpdate);
-            const { data } = await coursesServices.getCoursesSummary(
-                formCourseUpdate.courseName,
+            const { data } = await coursesServices.getSemesterSummary(
                 formCourseUpdate.semesterOne,
                 formCourseUpdate.semesterTwo
             );
@@ -76,12 +56,6 @@ const Subject = () => {
                 classCardHead={cn(styles.head, { [styles.hidden]: visible })}
                 head={
                     <>
-                        <Dropdown
-                            className={styles.field}
-                            value={courses}
-                            setValue={setCourses}
-                            options={courseOptions}
-                        />
                         <Dropdown
                             className={styles.field}
                             value={term}

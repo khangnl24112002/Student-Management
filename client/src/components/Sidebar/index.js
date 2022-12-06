@@ -10,7 +10,7 @@ const navigation = [
     {
         title: "Home",
         icon: "home",
-        url: "/",
+        url: "/home",
     },
     {
         title: "Grade",

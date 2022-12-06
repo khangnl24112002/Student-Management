@@ -36,7 +36,7 @@ const Row = ({
                 <div className={styles.col}>
                     <div className={styles.item}>
                         <div className={styles.details}>
-                            <div className={styles.user}>{item.name}</div>
+                            <div className={styles.user}>{item.className}</div>
                         </div>
                     </div>
                 </div>

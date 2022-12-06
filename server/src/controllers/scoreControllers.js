@@ -7,6 +7,7 @@ const {
     getAVGScoreService,
     getAVGScoreByCourseService,
     getAllStudentScoreService,
+    getSemesterSummaryService,
 } = require("../services/scoreServices");
 
 const getScoreController = async (req, res) => {
@@ -145,6 +146,22 @@ const getAllStudentScoreController = async (req, res) => {
         });
     }
 };
+const getSemesterSummaryController = async (req, res) => {
+    const { semesterOne, semesterTwo } = req.query;
+    try {
+        const data = await getSemesterSummaryService(semesterOne, semesterTwo);
+        res.status(200).send({
+            statusCode: 200,
+            data: data,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({
+            statusCode: 500,
+            "message:": e,
+        });
+    }
+};
 module.exports = {
     getScoreController,
     createScoreController,
@@ -154,4 +171,5 @@ module.exports = {
     getAVGScoreController,
     getAVGScoreByCourseController,
     getAllStudentScoreController,
+    getSemesterSummaryController,
 };

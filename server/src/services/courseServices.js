@@ -66,7 +66,7 @@ const getCoursesByGradeService = (id) => {
     });
 };
 const updateCourseService = (data) => {
-    const { name, passScore } = data;
+    const { name, passScore, id } = data;
     return new Promise(async (resolve, reject) => {
         const course = await Course.findOne({
             where: { id },
@@ -83,68 +83,64 @@ const updateCourseService = (data) => {
         }
     });
 };
-const getCoursesSummaryService = (courseId, semesterOne, semesterTwo) => {
+const getCoursesSummaryService = (courseName, semesterOne, semesterTwo) => {
     return new Promise(async (resolve, reject) => {
-        try {
-            const course = await Course.findOne({
+        console.log(courseName, semesterOne, semesterTwo);
+        results = [];
+        const classes = await Class.findAll();
+        numOfClasses = classes.length;
+        for (let i = 0; i < numOfClasses; i++) {
+            course = await Course.findOne({
                 where: {
-                    id: courseId,
+                    name: courseName,
+                    gradeId: classes[i].gradeId,
                 },
             });
 
-            results = [];
-            const classes = await Class.findAll();
-            numOfClasses = classes.length;
-            for (let i = 0; i < numOfClasses; i++) {
-                passCount = 0;
+            passCount = 0;
 
-                let students = await Student.findAll({
-                    where: { classId: classes[0].id },
+            let students = await Student.findAll({
+                where: { classId: classes[i].id },
+            });
+            numOfStudents = students.length;
+            for (let j = 0; j < numOfStudents; j++) {
+                let score = await Score.findOne({
+                    where: {
+                        studentId: students[j].id,
+                        courseId: course.id,
+                        semesterOne: semesterOne,
+                        semesterTwo: semesterTwo,
+                    },
                 });
-                numOfStudents = students.length;
-                for (let j = 0; j < numOfStudents; j++) {
-                    let score = await Score.findOne({
-                        where: {
-                            studentId: students[j].id,
-                            courseId: courseId,
-                            semesterOne: semesterOne,
-                            semesterTwo: semesterTwo,
-                        },
-                    });
-                    // if (score.exam15) {
-                    //     score.exam15 = 0;
-                    // }
-                    // if (score.exam45) {
-                    //     score.exam45 = 0;
-                    // }
-                    console.log(students[j].id);
-                    if (!!score.examFinal && !!score.exam45 && !!score.exam15) {
-                        avgScore =
-                            (score.exam15 +
-                                score.exam45 * 2 +
-                                score.examFinal * 3) /
-                            6;
-                        console.log(avgScore);
-                    }
 
+                if (score != null) {
+                    console.log(score);
+                    if (score.exam15 == null) {
+                        score.exam15 = 0;
+                        console.log("detected null score");
+                    }
+                    if (score.exam45 == null) score.exam45 = 0;
+                    if (score.examFinal == null) score.examFinal = 0;
+                    avgScore =
+                        (score.exam15 +
+                            score.exam45 * 2 +
+                            score.examFinal * 3) /
+                        6;
                     if (avgScore >= course.passScore) passCount++;
                 }
-                let ratio = passCount / students.length;
-                console.log(students.length);
-                let classInfo = {
-                    name: classes[i].name,
-                    numOfStudents: numOfStudents,
-                    numOfPass: passCount,
-                    ratio: ratio,
-                };
-                results.push(classInfo);
             }
-
-            if (results) resolve(results);
-            else reject({});
-        } catch (e) {
-            console.log(e);
+            let ratio = passCount / students.length;
+            classInfo = {
+                name: classes[i].name,
+                numOfStudents: numOfStudents,
+                numOfPass: passCount,
+                ratio: Math.round(ratio * 100) + "%",
+            };
+            results.push(classInfo);
         }
+
+        if (results) resolve(results);
+        else reject({});
     });
 };
 

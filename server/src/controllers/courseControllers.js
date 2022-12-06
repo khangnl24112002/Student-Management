@@ -72,10 +72,10 @@ const getCoursesByGradeController = async (req, res) => {
     }
 };
 const getCoursesSummaryController = async (req, res) => {
-    const { courseId, semesterOne, semesterTwo } = req.query;
+    const { courseName, semesterOne, semesterTwo } = req.query;
     try {
         const results = await getCoursesSummaryService(
-            +courseId,
+            courseName,
             +semesterOne,
             +semesterTwo
         );
