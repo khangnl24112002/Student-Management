@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./SignIn.module.sass";
 import { use100vh } from "react-div-100vh";
@@ -8,6 +8,9 @@ import Image from "../../components/Image";
 import { usersServices } from "../../services/studentServices";
 import { useNavigate } from "react-router-dom";
 const SignIn = () => {
+    useEffect(() => {
+        localStorage.removeItem("access_token");
+    }, []);
     const heightWindow = use100vh();
     const navigate = useNavigate();
     const [user, setUser] = useState({

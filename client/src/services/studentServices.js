@@ -49,4 +49,5 @@ export const coursesServices = {
 
 export const usersServices = {
     login: (params) => axiosClient.post(`users/login`, params),
+    register: (params) => axiosClient.post(`users/register`, params),
 };

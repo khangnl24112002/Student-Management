@@ -2,8 +2,17 @@ const { User, Teacher, Course, Class } = require("../models/index.js");
 const bcrypt = require("bcrypt");
 
 const createUser = async (data) => {
-    const { username, password, name, email, date, className, courseName } =
-        data;
+    const {
+        username,
+        password,
+        name,
+        email,
+        date,
+        className,
+        courseName,
+        gradeId,
+    } = data;
+    console.log(data);
     return new Promise(async (resolve, reject) => {
         try {
             const user = await User.findOne({
@@ -13,36 +22,40 @@ const createUser = async (data) => {
             });
             if (user) {
                 reject("Username is existed.");
-            }
-            const salt = bcrypt.genSaltSync(10);
-            const hashPassword = bcrypt.hashSync(password, salt);
-            const newUser = await User.create({
-                username,
-                password: hashPassword,
-            });
-            const dataCourse = await Course.findOne({
-                where: {
-                    name: courseName,
-                },
-            });
-            const dataClass = await Class.findOne({
-                where: {
-                    name: className,
-                },
-            });
-            if (dataClass && dataCourse) {
-                const newTeacher = await Teacher.create({
-                    name,
-                    date,
-                    email,
-                    classId: dataClass.id,
-                    courseId: dataCourse.id,
-                    userId: newUser.id,
+            } else {
+                const salt = bcrypt.genSaltSync(10);
+                const hashPassword = bcrypt.hashSync(password, salt);
+                const newUser = await User.create({
+                    username,
+                    password: hashPassword,
                 });
-                resolve({
-                    newUser: newUser,
-                    teacher: newTeacher,
+                const dataCourse = await Course.findOne({
+                    where: {
+                        name: courseName,
+                    },
                 });
+                // const dataClass = await Class.findOne({
+                //     where: {
+                //         name: className,
+                //     },
+                // });
+                if (dataCourse) {
+                    console.log("inside");
+                    const newTeacher = await Teacher.create({
+                        name,
+                        date,
+                        email,
+                        gradeId: gradeId,
+                        courseId: dataCourse.id,
+                        userId: newUser.id,
+                        classId: 1,
+                    });
+                    console.log(newTeacher);
+                    resolve({
+                        newUser: newUser,
+                        teacher: newTeacher,
+                    });
+                }
             }
         } catch (e) {
             console.log(e);

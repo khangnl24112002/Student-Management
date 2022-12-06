@@ -5,32 +5,54 @@ import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./User.module.sass";
 import Icon from "../../Icon";
 
-const items = [
-    {
-        menu: [
-            {
-                title: "Profile",
-                url: "/shop",
-            },
-            {
-                title: "Edit profile",
-                url: "/settings",
-            },
-        ],
-    },
-
-    {
-        menu: [
-            {
-                title: "Log out",
-            },
-        ],
-    },
-];
-
-const User = ({ className }) => {
+const User = ({ className, role }) => {
     const [visible, setVisible] = useState(false);
 
+    let items = [
+        {
+            menu: [
+                {
+                    title: "Profile",
+                    url: "/profile",
+                },
+                {
+                    title: "Edit profile",
+                    url: "/settings",
+                },
+            ],
+        },
+
+        {
+            menu: [
+                {
+                    title: "Log out",
+                    url: "/",
+                },
+            ],
+        },
+    ];
+    if (role && role === "teacher") {
+        items = [
+            {
+                menu: [
+                    {
+                        title: "Profile",
+                        url: "/profile",
+                    },
+                ],
+            },
+
+            {
+                menu: [
+                    {
+                        title: "Log out",
+                        url: "/",
+                    },
+                ],
+            },
+        ];
+    } else {
+    }
     return (
         <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
             <div

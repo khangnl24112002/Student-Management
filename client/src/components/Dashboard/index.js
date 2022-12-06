@@ -51,7 +51,7 @@ const Subject = () => {
         <>
             <Card
                 className={styles.card}
-                title="Subject Statistics"
+                title="Semester Statistics"
                 classTitle={cn("title-red", styles.title)}
                 classCardHead={cn(styles.head, { [styles.hidden]: visible })}
                 head={

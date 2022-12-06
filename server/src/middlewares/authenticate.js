@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/index");
+const { User, Teacher, Course } = require("../models/index");
 const authenticate = async (req, res, next) => {
     const token = req.header("token");
     try {
@@ -23,7 +23,6 @@ const authenticate = async (req, res, next) => {
 const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
     const token = bearerHeader && bearerHeader.split(" ")[1];
-
     try {
         const decode = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
         if (decode) {
@@ -40,7 +39,25 @@ const verifyToken = async (req, res, next) => {
                     message: "Unathorized",
                 });
             }
-            req.user = user;
+            let teacher = await Teacher.findOne({
+                where: {
+                    userId: decode.id,
+                },
+            });
+            let courseName;
+            if (teacher) {
+                courseName = await Course.findOne({
+                    where: {
+                        id: teacher.courseId,
+                    },
+                });
+            }
+
+            req.data = {
+                user,
+                teacher,
+                courseName: courseName?.name ? courseName.name : "",
+            };
             next();
         } else {
             return res.status(401).send({
@@ -49,6 +66,7 @@ const verifyToken = async (req, res, next) => {
             });
         }
     } catch (e) {
+        console.log(e);
         return res.status(401).send({
             statusCode: 401,
             message: "Unathorized.",

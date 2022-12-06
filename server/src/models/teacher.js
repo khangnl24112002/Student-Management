@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             classId: DataTypes.INTEGER,
             courseId: DataTypes.INTEGER,
             userId: DataTypes.INTEGER,
+            gradeId: DataTypes.INTEGER,
         },
         {
             sequelize,
