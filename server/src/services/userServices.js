@@ -1,19 +1,49 @@
-const { User } = require("../models/index.js");
+const { User, Teacher, Course, Class } = require("../models/index.js");
 const bcrypt = require("bcrypt");
 
 const createUser = async (data) => {
-    const { username, password, role } = data;
+    const { username, password, name, email, date, className, courseName } =
+        data;
     return new Promise(async (resolve, reject) => {
         try {
+            const user = await User.findOne({
+                where: {
+                    username,
+                },
+            });
+            if (user) {
+                reject("Username is existed.");
+            }
             const salt = bcrypt.genSaltSync(10);
             const hashPassword = bcrypt.hashSync(password, salt);
             const newUser = await User.create({
                 username,
-                role,
                 password: hashPassword,
             });
-
-            resolve(newUser);
+            const dataCourse = await Course.findOne({
+                where: {
+                    name: courseName,
+                },
+            });
+            const dataClass = await Class.findOne({
+                where: {
+                    name: className,
+                },
+            });
+            if (dataClass && dataCourse) {
+                const newTeacher = await Teacher.create({
+                    name,
+                    date,
+                    email,
+                    classId: dataClass.id,
+                    courseId: dataCourse.id,
+                    userId: newUser.id,
+                });
+                resolve({
+                    newUser: newUser,
+                    teacher: newTeacher,
+                });
+            }
         } catch (e) {
             console.log(e);
             reject({});

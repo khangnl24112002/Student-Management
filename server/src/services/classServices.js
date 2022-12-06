@@ -21,12 +21,12 @@ const getClassesService = async (clasID) => {
 };
 
 const createClassService = async (data) => {
-    const { gradeID, name, numberStudent } = data;
-
+    const { gradeId, name, numberStudent } = data;
+    console.log(data);
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
-                gradeID,
+                gradeId,
                 numberStudent,
                 name: name.toUpperCase(),
             });
@@ -55,8 +55,8 @@ const deleteClassService = async (classid) => {
     });
 };
 
-const updateClassService = async (id, data) => {
-    const { gradeID, name, numberStudent } = data;
+const updateClassService = async (data) => {
+    const { gradeId, name, numberStudent, id } = data;
     let classes = null;
     return new Promise(async (resolve, reject) => {
         if (id === "undefined") {
@@ -74,7 +74,7 @@ const updateClassService = async (id, data) => {
 
         if (classes) {
             await classes.update({
-                gradeID,
+                gradeId,
                 name,
                 numberStudent,
             });

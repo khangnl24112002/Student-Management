@@ -9,7 +9,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Register = async (req, res) => {
     try {
-        const newUser = await createUser(req.body);
+        const { newUser, newTeacher } = await createUser(req.body);
+        console.log(newUser);
         const token = jwt.sign(
             {
                 id: newUser.id,
