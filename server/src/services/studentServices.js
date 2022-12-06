@@ -1,4 +1,4 @@
-const { Student, Class, sequelize } = require("../models/index");
+const { Student, Class,Score, sequelize } = require("../models/index");
 const { QueryTypes } = require("sequelize");
 
 const createStudentService = async (data) => {
@@ -51,6 +51,11 @@ const createStudentService = async (data) => {
 
 const deleteStudentService = async (studentId) => {
     return new Promise(async (resolve, reject) => {
+        await Score.destroy({
+
+            where: {studentId:studentId}
+        })
+
         const student = await Student.findOne({
             where: {
                 id: studentId,

@@ -138,14 +138,16 @@ const getAllClassesService = async () => {
 const getNotFullClassesService = async () => {
     return new Promise(async (resolve, reject) => {
         try {
+
+
+
             const classes = await sequelize.query(
-                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.classes as cl join student_management.students as st1 on cl.id = st1.classId where cl.numberStudent> (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) ",
+                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.classes as cl where cl.numberStudent> (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) = 0 ",
                 {
                     type: QueryTypes.SELECT,
                 }
             );
 
-            console.debug(classes);
 
             if (classes.length === 0) {
                 reject("Not found.");
