@@ -52,7 +52,7 @@ const navigation = [
     {
         title: "Statistics",
         icon: "heart",
-        url: "/shop",
+        url: "/statistics",
     },
     {
         title: "Courses",

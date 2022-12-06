@@ -13,11 +13,13 @@ import StudentDetail from "./components/StudentList/Edit";
 import EditScore from "./components/Subject/NameAndDescription";
 import CreateClass from "./components/CreateClass/NameAndDescription";
 import CreateCourse from "./components/CreateCourse/NameAndDescription";
+import Statistics from "./components/Statistics/index";
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Page title="Dashboard"></Page>} />
+                <Route path="/" element={<SignIn />} />
+                <Route path="/home" element={<Page title="Dashboard"></Page>} />
                 <Route
                     path="/students/add"
                     element={
@@ -87,6 +89,14 @@ function App() {
                     element={
                         <Page title="Course">
                             <CreateCourse />
+                        </Page>
+                    }
+                />
+                <Route
+                    path="/statistics"
+                    element={
+                        <Page title="Statistics">
+                            <Statistics />
                         </Page>
                     }
                 />

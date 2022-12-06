@@ -19,7 +19,6 @@ const Dropdown = ({
         setValue(value);
         setVisible(false);
     };
-
     return (
         <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
             {label && (
