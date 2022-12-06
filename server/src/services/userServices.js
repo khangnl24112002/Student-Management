@@ -1,19 +1,62 @@
-const { User } = require("../models/index.js");
+const { User, Teacher, Course, Class } = require("../models/index.js");
 const bcrypt = require("bcrypt");
 
 const createUser = async (data) => {
-    const { username, password, role } = data;
+    const {
+        username,
+        password,
+        name,
+        email,
+        date,
+        className,
+        courseName,
+        gradeId,
+    } = data;
+    console.log(data);
     return new Promise(async (resolve, reject) => {
         try {
-            const salt = bcrypt.genSaltSync(10);
-            const hashPassword = bcrypt.hashSync(password, salt);
-            const newUser = await User.create({
-                username,
-                role,
-                password: hashPassword,
+            const user = await User.findOne({
+                where: {
+                    username,
+                },
             });
-
-            resolve(newUser);
+            if (user) {
+                reject("Username is existed.");
+            } else {
+                const salt = bcrypt.genSaltSync(10);
+                const hashPassword = bcrypt.hashSync(password, salt);
+                const newUser = await User.create({
+                    username,
+                    password: hashPassword,
+                });
+                const dataCourse = await Course.findOne({
+                    where: {
+                        name: courseName,
+                    },
+                });
+                // const dataClass = await Class.findOne({
+                //     where: {
+                //         name: className,
+                //     },
+                // });
+                if (dataCourse) {
+                    console.log("inside");
+                    const newTeacher = await Teacher.create({
+                        name,
+                        date,
+                        email,
+                        gradeId: gradeId,
+                        courseId: dataCourse.id,
+                        userId: newUser.id,
+                        classId: 1,
+                    });
+                    console.log(newTeacher);
+                    resolve({
+                        newUser: newUser,
+                        teacher: newTeacher,
+                    });
+                }
+            }
         } catch (e) {
             console.log(e);
             reject({});

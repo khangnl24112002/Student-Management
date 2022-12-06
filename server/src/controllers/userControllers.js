@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Register = async (req, res) => {
     try {
-        const newUser = await createUser(req.body);
+        const { newUser, teacher } = await createUser(req.body);
         const token = jwt.sign(
             {
                 id: newUser.id,
@@ -24,12 +24,13 @@ const Register = async (req, res) => {
             statusCode: 200,
             token,
             user: newUser,
+            teacher: teacher,
         });
     } catch (e) {
         console.log(e);
         res.status(500).send({
             statusCode: 500,
-            "message:": "Something went wrong.",
+            "message:": e,
         });
     }
 };
@@ -100,7 +101,7 @@ const deleteUser = async (req, res) => {
 const auth = (req, res) => {
     res.status(200).json({
         statusCode: 200,
-        user: req.user,
+        data: req.data,
     });
 };
 const updateUser = async (req, res) => {

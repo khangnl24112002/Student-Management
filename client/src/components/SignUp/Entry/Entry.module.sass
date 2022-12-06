@@ -1,5 +1,11 @@
 @import ../../../styles/helpers
-
+.description
+    margin-top: 1rem
+    & > .field
+        &:not(:last-child)
+            margin-bottom: 32px
+            +d
+                margin-bottom: 24px
 .head
     margin-bottom: 32px
     padding-bottom: 32px

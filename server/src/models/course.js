@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             gradeId: DataTypes.INTEGER,
             name: DataTypes.STRING,
+            passScore: DataTypes.FLOAT,
         },
         {
             sequelize,
