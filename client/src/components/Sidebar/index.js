@@ -26,19 +26,16 @@ const Sidebar = ({ className, onClose, data }) => {
                     title: "Grade 10",
                     url: "/grades/10",
                     counter: "2",
-                    colorCounter: "#FFBC99",
                 },
                 {
                     title: "Grade 11",
                     url: "/grades/11",
                     counter: "2",
-                    colorCounter: "#FFBC99",
                 },
                 {
                     title: "Grade 12",
                     url: "/grades/12",
                     counter: "2",
-                    colorCounter: "#FFBC99",
                 },
                 {
                     title: "Create Class",

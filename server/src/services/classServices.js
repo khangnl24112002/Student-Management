@@ -22,7 +22,6 @@ const getClassesService = async (clasID) => {
 
 const createClassService = async (data) => {
     const { gradeId, name, numberStudent } = data;
-    console.log(data);
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
@@ -60,13 +59,10 @@ const updateClassService = async (data) => {
     let classes = null;
     return new Promise(async (resolve, reject) => {
         if (id === "undefined") {
-            console.log("here1");
             classes = await Class.findOne({
                 where: { name: name },
             });
-            console.log(classes);
         } else {
-            console.log("here2");
             classes = await Class.findOne({
                 where: { id },
             });
@@ -96,8 +92,6 @@ const getListGradeClassesService = async (gradeName) => {
                     type: QueryTypes.SELECT,
                 }
             );
-
-            console.log(gradeId[0].gradeId);
 
             const gradeClasses = await Class.findAll({
                 where: {
@@ -138,16 +132,12 @@ const getAllClassesService = async () => {
 const getNotFullClassesService = async () => {
     return new Promise(async (resolve, reject) => {
         try {
-
-
-
             const classes = await sequelize.query(
                 "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.classes as cl where cl.numberStudent> (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) = 0 ",
                 {
                     type: QueryTypes.SELECT,
                 }
             );
-
 
             if (classes.length === 0) {
                 reject("Not found.");

@@ -2,8 +2,12 @@ import axiosClient from "../api/apiClient";
 
 export const studentServices = {
     getListStudents: (id) => axiosClient.get(`students/getStudent?id=${id}`),
+    searchStudent: (id) =>
+        axiosClient.get(`students/getStudentSearch?studentName=${id}`),
     getStudentsByClass: (name) =>
         axiosClient.get(`students/getListClassStudents?name=${name}`),
+    updateScore: (id, params) =>
+        axiosClient.put(`scores/updateScore?id=${id}`, params),
     getAVGStudentList: () => axiosClient.get(`scores/getAllStudentScore`),
     getAVGStudent: (id) => axiosClient.get(`scores/avgScore?id=${id}`),
     getAVGByCourse: (nameClass, courseName, semesterOne, semesterTwo) =>

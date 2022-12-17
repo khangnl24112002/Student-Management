@@ -54,13 +54,10 @@ const updateTeacherService = async (data) => {
     let classes = null;
     return new Promise(async (resolve, reject) => {
         if (id === "undefined") {
-            console.log("here1");
             classes = await Class.findOne({
                 where: { name: name },
             });
-            console.log(classes);
         } else {
-            console.log("here2");
             classes = await Class.findOne({
                 where: { id },
             });

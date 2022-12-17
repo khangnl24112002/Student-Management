@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./NameAndDescription.module.sass";
 import Card from "../../../Card";
 import TextInput from "../../../TextInput";
@@ -28,6 +28,10 @@ const NameAndDescription = ({
     setTerm,
     handleChange,
 }) => {
+    const navigate = useNavigate();
+    const avatar = value.gender
+        ? "/images/content/male.png"
+        : "/images/content/female.png";
     return (
         <Card
             className={cn(styles.card, className)}
@@ -40,8 +44,9 @@ const NameAndDescription = ({
                         <div className={styles.cardContainer}>
                             <img
                                 className={styles.round}
-                                src="https://randomuser.me/api/portraits/women/79.jpg"
+                                src={avatar}
                                 alt="user"
+                                width={100}
                             />
                             <div className={styles.wrapInfo}>
                                 <div className={styles.info}>
@@ -111,9 +116,15 @@ const NameAndDescription = ({
                 </div>
 
                 <div className={styles.buttonContainer}>
-                    <button className={cn("button")} type="button">
+                    <div
+                        className={cn("button")}
+                        type="button"
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
                         Back
-                    </button>
+                    </div>
                 </div>
             </div>
         </Card>

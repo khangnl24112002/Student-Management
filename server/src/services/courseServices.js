@@ -18,7 +18,6 @@ const createCourseService = (data) => {
 
 const deleteCourseService = async (id) => {
     return new Promise(async (resolve, reject) => {
-        console.log(id);
         const courses = await Course.findOne({
             where: {
                 id: +id.id,
@@ -85,7 +84,6 @@ const updateCourseService = (data) => {
 };
 const getCoursesSummaryService = (courseName, semesterOne, semesterTwo) => {
     return new Promise(async (resolve, reject) => {
-        console.log(courseName, semesterOne, semesterTwo);
         results = [];
         const classes = await Class.findAll();
         numOfClasses = classes.length;
@@ -114,10 +112,8 @@ const getCoursesSummaryService = (courseName, semesterOne, semesterTwo) => {
                 });
 
                 if (score != null) {
-                    console.log(score);
                     if (score.exam15 == null) {
                         score.exam15 = 0;
-                        console.log("detected null score");
                     }
                     if (score.exam45 == null) score.exam45 = 0;
                     if (score.examFinal == null) score.examFinal = 0;

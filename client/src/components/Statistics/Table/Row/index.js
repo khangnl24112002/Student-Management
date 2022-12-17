@@ -29,7 +29,6 @@ const Row = ({
                     { [styles.selected]: activeId === item.id },
                     { [styles.active]: activeTable }
                 )}
-                onClick={() => handleClick(item.id)}
             >
                 <div className={styles.col}>{item.id}</div>
 

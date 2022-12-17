@@ -12,7 +12,6 @@ const createUser = async (data) => {
         courseName,
         gradeId,
     } = data;
-    console.log(data);
     return new Promise(async (resolve, reject) => {
         try {
             const user = await User.findOne({
@@ -40,7 +39,6 @@ const createUser = async (data) => {
                 //     },
                 // });
                 if (dataCourse) {
-                    console.log("inside");
                     const newTeacher = await Teacher.create({
                         name,
                         date,
@@ -50,7 +48,6 @@ const createUser = async (data) => {
                         userId: newUser.id,
                         classId: 1,
                     });
-                    console.log(newTeacher);
                     resolve({
                         newUser: newUser,
                         teacher: newTeacher,

@@ -16,7 +16,6 @@ const NameAndDescription = ({
     setNameClass,
     handleSubmit,
 }) => {
-    console.log(currentSizeClass);
     return (
         <Card
             className={cn(styles.card, className)}

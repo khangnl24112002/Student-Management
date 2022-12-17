@@ -23,9 +23,9 @@ const SignUp = () => {
             <div className={styles.col} style={{ minHeight: heightWindow }}>
                 <div className={styles.head}>
                     <div className={styles.info}>
-                        Have An Account?{" "}
-                        <Link className={styles.link} to="/sign-in">
-                            Sign in
+                        {/* Have An Account?{" "} */}
+                        <Link className={styles.link} to="/home">
+                            Back
                         </Link>
                     </div>
                 </div>

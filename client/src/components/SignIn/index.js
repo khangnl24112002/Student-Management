@@ -4,12 +4,13 @@ import styles from "./SignIn.module.sass";
 import { use100vh } from "react-div-100vh";
 import { Link } from "react-router-dom";
 import TextInput from "../../components/TextInput";
-import Image from "../../components/Image";
 import { usersServices } from "../../services/studentServices";
 import { useNavigate } from "react-router-dom";
+import { addNotification } from "../../utils/toastify";
 const SignIn = () => {
     useEffect(() => {
         localStorage.removeItem("access_token");
+        localStorage.setItem("darkMode", true);
     }, []);
     const heightWindow = use100vh();
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ const SignIn = () => {
             localStorage.setItem("access_token", data.token);
             navigate("/home");
         } catch (e) {
+            addNotification("Username or password is incorrect.", 3);
             console.log(e);
         }
     };

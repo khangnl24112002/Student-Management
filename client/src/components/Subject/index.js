@@ -107,7 +107,6 @@ const Subject = () => {
             studentId: item.studentId,
         });
     };
-    console.log(editStudentScore.current);
 
     return (
         <>
