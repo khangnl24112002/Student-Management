@@ -4,10 +4,10 @@ import cn from "classnames";
 import Row from "./Row";
 
 // data
-import { customers } from "../../../mocks/customers";
+// import { customers } from "../../../mocks/customers";
 
 const Table = ({ className, activeTable, setActiveTable, pathname, data }) => {
-    const [activeId, setActiveId] = useState(customers[0].id);
+    // const [activeId, setActiveId] = useState(customers[0].id);
     const [selectedFilters, setSelectedFilters] = useState([]);
     console.log(data);
     const handleChange = (id) => {
@@ -38,8 +38,8 @@ const Table = ({ className, activeTable, setActiveTable, pathname, data }) => {
                         key={index}
                         activeTable={activeTable}
                         setActiveTable={setActiveTable}
-                        activeId={activeId}
-                        setActiveId={setActiveId}
+                        // activeId={activeId}
+                        // setActiveId={setActiveId}
                         value={selectedFilters.includes(x.id)}
                         onChange={() => handleChange(x.id)}
                         pathname={pathname}

@@ -135,17 +135,18 @@ const getListClassStudentsService = async (className) => {
                     type: QueryTypes.SELECT,
                 }
             );
-
-            const classStudents = await Student.findAll({
-                where: {
-                    classId: classId[0].classId,
-                },
-                raw: true,
-            });
-            if (classStudents.length === 0) {
-                reject("Not found.");
-            } else {
-                resolve(classStudents);
+            if (classId && classId.length !== 0) {
+                const classStudents = await Student.findAll({
+                    where: {
+                        classId: classId[0].classId,
+                    },
+                    raw: true,
+                });
+                if (classStudents.length === 0) {
+                    reject("Not found.");
+                } else {
+                    resolve(classStudents);
+                }
             }
         } catch (e) {
             console.log(e);
