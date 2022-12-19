@@ -64,6 +64,9 @@ const userLogin = async (data) => {
     const { username, password } = data;
     return new Promise(async (resolve, reject) => {
         try {
+
+            console.log(data)
+
             const user = await User.findOne({
                 where: { username },
             });

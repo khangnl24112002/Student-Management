@@ -11,7 +11,7 @@ module.exports = {
         return Promise.all([
             queryInterface.addColumn(
                 "Teachers", // table name
-                "gradeId", // new field brand
+                "courseId", // new field brand
                 {
                     type: Sequelize.INTEGER,
                 }
@@ -27,7 +27,7 @@ module.exports = {
          * await queryInterface.dropTable('users');
          */
         return Promise.all([
-            queryInterface.removeColumn("Teachers", "gradeId"),
+            queryInterface.removeColumn("Teachers", "courseId"),
         ]);
     },
 };

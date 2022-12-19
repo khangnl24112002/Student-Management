@@ -101,7 +101,7 @@ const updateStudentService = async (id, data) => {
             });
 
             const max = await sequelize.query(
-                "SELECT `numberStudent` as number FROM `classes` WHERE `id` = ?",
+                "SELECT `numberStudent` as number FROM `Classes` WHERE `id` = ?",
                 {
                     replacements: [`${classId}`],
                     type: QueryTypes.SELECT,
@@ -129,7 +129,7 @@ const getListClassStudentsService = async (className) => {
     return new Promise(async (resolve, reject) => {
         try {
             const classId = await sequelize.query(
-                "SELECT id as classId FROM `classes` WHERE `name` = ?",
+                "SELECT id as classId FROM `Classes` WHERE `name` = ?",
                 {
                     replacements: [`${className.name}`],
                     type: QueryTypes.SELECT,

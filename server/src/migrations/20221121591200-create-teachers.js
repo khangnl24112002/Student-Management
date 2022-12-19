@@ -26,7 +26,7 @@ module.exports = {
             },
             classId: {
                 type: Sequelize.INTEGER,
-                references: { model: "classes", key: "id" },
+                references: { model: "Classes", key: "id" },
             },
             createdAt: {
                 allowNull: false,

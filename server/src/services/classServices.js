@@ -86,7 +86,7 @@ const getListGradeClassesService = async (gradeName) => {
     return new Promise(async (resolve, reject) => {
         try {
             const gradeId = await sequelize.query(
-                "SELECT id as gradeId FROM `grades` WHERE `name` = ?",
+                "SELECT id as gradeId FROM `Grades` WHERE `name` = ?",
                 {
                     replacements: [`${gradeName.name}`],
                     type: QueryTypes.SELECT,
@@ -133,7 +133,7 @@ const getNotFullClassesService = async () => {
     return new Promise(async (resolve, reject) => {
         try {
             const classes = await sequelize.query(
-                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.classes as cl where cl.numberStudent> (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM student_management.students as st2 where st2.classId = cl.id) = 0 ",
+                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.Classes as cl where cl.numberStudent> (SELECT count(*) FROM student_management.Students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM student_management.Students as st2 where st2.classId = cl.id) = 0 ",
                 {
                     type: QueryTypes.SELECT,
                 }

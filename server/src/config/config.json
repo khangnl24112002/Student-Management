@@ -1,18 +1,19 @@
 {
     "development": {
         "username": "root",
-        "password": "lolminhga67",
+        "password": "1111",
         "database": "student_management",
         "host": "127.0.0.1",
         "dialect": "mysql",
         "logging": false
     },
     "test": {
-        "username": "root",
-        "password": null,
-        "database": "database_test",
-        "host": "127.0.0.1",
-        "dialect": "mysql"
+        "username": "freedb_ptnminh",
+        "password": "ZQ#4#!m34xPtudz",
+        "database": "freedb_student_management",
+        "host": "sql.freedb.tech",
+        "dialect": "mysql",
+        "logging": false
     },
     "production": {
         "username": "root",

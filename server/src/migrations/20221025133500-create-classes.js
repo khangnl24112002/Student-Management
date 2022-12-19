@@ -11,7 +11,7 @@ module.exports = {
             },
             gradeId: {
                 type: Sequelize.INTEGER,
-                references: { model: "grades", key: "id" },
+                references: { model: "Grades", key: "id" },
             },
             name: {
                 type: Sequelize.STRING,
