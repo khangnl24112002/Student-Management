@@ -16,31 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Users`
+-- Table structure for table `Grades`
 --
 
-DROP TABLE IF EXISTS `Users`;
+DROP TABLE IF EXISTS `Grades`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Users` (
+CREATE TABLE `Grades` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `role` varchar(255) NOT NULL DEFAULT 'Teacher',
+  `minOld` int DEFAULT NULL,
+  `maxOld` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Users`
+-- Dumping data for table `Grades`
 --
 
-LOCK TABLES `Users` WRITE;
-/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (2,'Minh Phan','$2b$10$xH3.b3/9nXdNMu81YOiiBOnTWz8.6Y/q3N3Zjk/MjSN5aIontypqG','0000-00-00 00:00:00','0000-00-00 00:00:00','teacher'),(3,'Minh Phan','$2b$10$lCojfQm86F5nDwJVc3acF.m92neijl7aB/PObElBppfVjToEvLRe2','0000-00-00 00:00:00','0000-00-00 00:00:00','teacher'),(4,'admin','$2b$10$4hmPcLEk4zK861C8Cx2LUOc0iS.x2RVu4P1nlYD/Q2YexjVtQFwkG','0000-00-00 00:00:00','0000-00-00 00:00:00','teacher'),(5,'admin2','$2b$10$0Z60cVjNmxJfRnxjWv5F8uzEcBevHTMXil9qa7rbw.tyVRj9D/gze','2022-11-15 04:37:21','2022-11-15 04:37:21','admin');
-/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
+LOCK TABLES `Grades` WRITE;
+/*!40000 ALTER TABLE `Grades` DISABLE KEYS */;
+INSERT INTO `Grades` VALUES (1,'10','2022-11-06 15:10:30','2022-11-06 15:10:30',13,100),(2,'11','2022-11-06 15:10:35','2022-11-06 15:10:35',14,100),(3,'12','2022-11-06 15:10:39','2022-11-06 15:10:39',15,100);
+/*!40000 ALTER TABLE `Grades` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

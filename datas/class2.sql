@@ -32,7 +32,7 @@ CREATE TABLE `Classes` (
   PRIMARY KEY (`id`),
   KEY `gradeId` (`gradeId`),
   CONSTRAINT `Classes_ibfk_1` FOREIGN KEY (`gradeId`) REFERENCES `grades` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
