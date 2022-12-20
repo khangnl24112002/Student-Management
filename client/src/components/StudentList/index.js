@@ -13,16 +13,35 @@ const StudentList = () => {
     const { pathname } = useLocation();
     const [space, typeEdit, id] = pathname.split("/");
     const [studentList, setStudentList] = useState([]);
-    const handleSubmit = (e) => {
-        alert();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await studentServices.searchStudent(search);
+            if (data) {
+                const students = data.map((student) => {
+                    const date = moment.utc(student.date).format("DD-MM-YYYY");
+                    return {
+                        ...student,
+                        avatar: student.gender
+                            ? "/images/content/male.png"
+                            : "/images/content/female.png",
+                        date,
+                    };
+                });
+                setStudentList(students);
+            } else {
+                return;
+            }
+        } catch (e) {
+            console.log(e);
+            setStudentList([]);
+        }
     };
-    // useEffect(() => {
-    //     if (search !== "") console.log(search);
-    // }, [search]);
-    useEffect(() => {
-        async function getAllStudents() {
-            try {
-                const { data } = await studentServices.getAVGStudentList();
+    async function getStudentsSearch(keyword) {
+        try {
+            const { data } = await studentServices.searchStudent(keyword);
+            if (data) {
+                console.log(data);
                 const students = data.map((student) => {
                     const date = moment.utc(student.date).format("DD-MM-YYYY");
                     return {
@@ -35,11 +54,40 @@ const StudentList = () => {
                 });
 
                 setStudentList(students);
-            } catch (e) {
-                console.log(e);
-                setStudentList([]);
+            } else {
+                return;
             }
+        } catch (e) {
+            console.log(e);
+            setStudentList([]);
         }
+    }
+    useEffect(() => {
+        if (search === "") {
+            getAllStudents();
+        }
+    }, [search]);
+    async function getAllStudents() {
+        try {
+            const { data } = await studentServices.getAVGStudentList();
+            const students = data.map((student) => {
+                const date = moment.utc(student.date).format("DD-MM-YYYY");
+                return {
+                    ...student,
+                    avatar: student.gender
+                        ? "/images/content/male.png"
+                        : "/images/content/female.png",
+                    date,
+                };
+            });
+
+            setStudentList(students);
+        } catch (e) {
+            console.log(e);
+            setStudentList([]);
+        }
+    }
+    useEffect(() => {
         getAllStudents();
     }, []);
 
@@ -56,7 +104,7 @@ const StudentList = () => {
                             className={styles.form}
                             value={search}
                             setValue={setSearch}
-                            onSubmit={() => handleSubmit()}
+                            onSubmit={handleSubmit}
                             placeholder="Search by name or email"
                             type="text"
                             name="search"

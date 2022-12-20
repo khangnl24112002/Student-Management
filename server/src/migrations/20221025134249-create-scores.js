@@ -11,7 +11,7 @@ module.exports = {
             },
             courseId: {
                 type: Sequelize.INTEGER,
-                references: {model: "courses", key:"id"},
+                references: {model: "Courses", key:"id"},
             },
             exam15: {
                 type: Sequelize.FLOAT,
@@ -24,7 +24,7 @@ module.exports = {
             },
             studentId: {
                 type: Sequelize.INTEGER,
-                references: { model: "students", key: "id" },
+                references: { model: "Students", key: "id" },
             },
             // createdAt: {
             //     allowNull: false,

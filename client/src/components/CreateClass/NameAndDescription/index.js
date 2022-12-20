@@ -15,47 +15,86 @@ import { addNotification } from "../../../utils/toastify";
 const gradeOptions = ["10", "11", "12"];
 const NameAndDescription = ({ className }) => {
     const [value, setValue] = React.useState("1");
-
+    const [grade, setGrade] = React.useState("10");
+    const [nameClass, setNameClass] = useState("10A1");
+    const [curNumberStudent, setCurNumberStudent] = useState(0);
+    const [classId, setClassId] = useState([]);
+    const [id, setId] = useState(0);
     const handleChangeTab = (event, newValue) => {
         setValue(newValue);
     };
     const [allClasses, setAllClasses] = useState([]);
     const [valueCreate, setValueCreate] = useState({
-        id: null,
         name: "",
-        numberStudent: 0,
+        numberStudent: null,
+        gradeId: null,
     });
     const [valueChange, setValueChange] = useState({
         name: "",
-        numberStudent: 0,
-        gradeId: 0,
+        numberStudent: null,
+        id: 0,
     });
     useEffect(() => {
         async function getClass() {
             try {
                 const { data } = await classesServices.getClass(-1);
                 const listClass = data.map((i) => i.name);
+                const listIdClass = data.map((i) => {
+                    return {
+                        name: i.name,
+                        id: i.id,
+                    };
+                });
+                setClassId(listIdClass);
+                console.log(listIdClass);
                 setAllClasses(listClass);
             } catch (e) {
                 console.log(e);
             }
         }
         getClass();
-    });
+    }, []);
     const handleChangeCreate = (e) => {
         let value = e.target.value;
+        console.log(e.target.name, e.target.value);
         if (e.target.name === "numberStudent") {
             value = +value;
         }
+
         setValueCreate({
             ...valueCreate,
             [e.target.name]: value,
         });
     };
-    const handleSubmitChange = (e) => {};
+    useEffect(() => {
+        let gradeId = 0;
+        if (grade === "10") {
+            gradeId = 1;
+        } else if (grade === "11") {
+            gradeId = 2;
+        } else {
+            gradeId = 3;
+        }
+        setValueCreate({
+            ...valueCreate,
+            gradeId,
+        });
+    }, [grade]);
+    const handleSubmitChange = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(valueChange);
+            const data = await classesServices.updateClass(valueChange);
+            addNotification("Update successfully", 0);
+        } catch (e) {
+            addNotification("Something went wrong", 3);
+            console.log(e);
+        }
+    };
     const handleSubmitCreate = async (e) => {
         e.preventDefault();
         try {
+            console.log(valueCreate);
             const newClass = await classesServices.createClass(valueCreate);
             addNotification("New class created", 0);
         } catch (e) {
@@ -65,6 +104,8 @@ const NameAndDescription = ({ className }) => {
     };
     const handleChangeEdit = (e) => {
         let value = e.target.value;
+        console.log(e.target.name, e.target.value);
+
         if (e.target.name === "numberStudent") {
             value = +value;
         }
@@ -73,9 +114,6 @@ const NameAndDescription = ({ className }) => {
             [e.target.name]: value,
         });
     };
-    const [grade, setGrade] = React.useState("10");
-    const [nameClass, setNameClass] = useState("10A1");
-    const [curNumberStudent, setCurNumberStudent] = useState(0);
     useEffect(() => {
         async function getClassCurSize() {
             try {
@@ -88,6 +126,14 @@ const NameAndDescription = ({ className }) => {
             }
         }
         getClassCurSize();
+        const data = classId.filter((item) => item.name === nameClass);
+        if (data.length !== 0) {
+            setId(data[0].id);
+            setValueChange({
+                ...valueChange,
+                id: data[0].id,
+            });
+        }
     }, [nameClass]);
     return (
         <Card
@@ -223,7 +269,6 @@ const NameAndDescription = ({ className }) => {
                                 name="numberStudent"
                                 type="text"
                                 placeholder="Value"
-                                required
                                 handleChange={handleChangeEdit}
                             />
 

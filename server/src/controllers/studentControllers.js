@@ -4,6 +4,7 @@ const {
     getStudentsService,
     updateStudentService,
     getListClassStudentsService,
+    getStudentSearchService,
 } = require("../services/studentServices");
 
 const createStudentController = async (req, res) => {
@@ -87,11 +88,29 @@ const getListClassStudentsController = async (req, res) => {
         });
     }
 };
+const getStudentSearchController = async (req, res) => {
+    const studentName = req.query.studentName;
+
+    try {
+        const students = await getStudentSearchService(studentName);
+        res.status(200).send({
+            statusCode: 200,
+            data: students,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({
+            statusCode: 404,
+            "message:": "Not found.",
+        });
+    }
+};
 
 module.exports = {
     createStudentController,
     deteteStudentController,
     getStudentController,
     updateStudentController,
+    getStudentSearchController,
     getListClassStudentsController,
 };

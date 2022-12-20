@@ -212,47 +212,48 @@ const getAVGScoreByCourseService = (
 ) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(className);
-            const { id: classId, gradeId } = await Class.findOne({
+            const data = await Class.findOne({
                 where: {
                     name: className,
                 },
                 raw: true,
             });
-            const { id: courseId } = await Course.findOne({
-                where: {
-                    gradeId,
-                    name: courseName,
-                },
-            });
+            if (data) {
+                const { id: classId, gradeId } = data;
+                const { id: courseId } = await Course.findOne({
+                    where: {
+                        gradeId,
+                        name: courseName,
+                    },
+                });
 
-            let students = await Student.findAll({
-                where: {
-                    classId,
-                },
-                raw: true,
-            });
-            students = await Promise.all(
-                students.map(async (student) => {
-                    try {
-                        const data = await getScoreForStudentByCourse(
-                            student.id,
-                            courseId,
-                            semesterOne,
-                            semesterTwo
-                        );
-                        console.log(data);
-                        return {
-                            ...data,
-                            name: student.name,
-                            gender: student.gender,
-                        };
-                    } catch (e) {
-                        reject(e);
-                    }
-                })
-            );
-            resolve(students);
+                let students = await Student.findAll({
+                    where: {
+                        classId,
+                    },
+                    raw: true,
+                });
+                students = await Promise.all(
+                    students.map(async (student) => {
+                        try {
+                            const data = await getScoreForStudentByCourse(
+                                student.id,
+                                courseId,
+                                semesterOne,
+                                semesterTwo
+                            );
+                            return {
+                                ...data,
+                                name: student.name,
+                                gender: student.gender,
+                            };
+                        } catch (e) {
+                            reject(e);
+                        }
+                    })
+                );
+                resolve(students);
+            }
         } catch (e) {
             console.log(e);
             reject(e);
@@ -317,11 +318,7 @@ const getAVGScoreService = (id) => {
                 delete score.studentId;
                 delete score.CourseId;
                 delete score.StudentId;
-                if (score.semesterOne === 0) {
-                    delete score.semesterOne;
-                } else {
-                    delete score.semesterTwo;
-                }
+
                 return {
                     ...score,
                     avgScore: Math.round(avgScore),
@@ -347,8 +344,8 @@ const getAVGScoreService = (id) => {
                 count2++;
             }
         });
-        avgTerm1 = count1 === count ? avgTerm1 / count : 0;
-        avgTerm2 = count2 === count ? Math.round(avgTerm2 / count) : 0;
+        avgTerm1 = Math.round(avgTerm1 / count1);
+        avgTerm2 = Math.round(avgTerm2 / count2);
         let avg =
             avgTerm1 !== 0 && avgTerm2 !== 0
                 ? Math.round((avgTerm2 + avgTerm1) / 2)
@@ -374,6 +371,47 @@ const getAVGScoreService = (id) => {
         }
     });
 };
+const getSemesterSummaryService = (semesterOne, semesterTwo) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            results = [];
+            const classes = await Class.findAll();
+
+            for (let i = 0; i < classes.length; i++) {
+                passCount = 0;
+
+                students = await Student.findAll({
+                    where: { classId: classes[i].id },
+                });
+
+                numOfStudents = students.length;
+                for (let j = 0; j < numOfStudents; j++) {
+                    score = await getAVGScoreService(students[j].id);
+
+                    if (semesterOne == 1 && semesterTwo == 0) {
+                        if (score.avgTerm1 >= 5) passCount++;
+                    } else {
+                        if (score.avgTerm2 >= 5) passCount++;
+                    }
+                }
+
+                let ratio = passCount / students.length;
+                classInfo = {
+                    className: classes[i].name,
+                    numOfStudents: numOfStudents,
+                    numOfPass: passCount,
+                    ratio: Math.round(ratio * 100) + "%",
+                };
+                results.push(classInfo);
+            }
+            if (results) resolve(results);
+            else reject({});
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createScoreService,
     deleteScoreService,
@@ -383,4 +421,5 @@ module.exports = {
     getAVGScoreService,
     getAVGScoreByCourseService,
     getAllStudentScoreService,
+    getSemesterSummaryService,
 };

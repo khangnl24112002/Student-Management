@@ -28,30 +28,36 @@ const GradesEdit = () => {
     };
     async function getClassCurSize() {
         try {
-            const { data } = await classesServices.getClassCurSize(
-                state.gradeId
-            );
+            const { data } = await studentServices.getListStudents(id);
+            const classes = await classesServices.getClass(data.classId);
 
+            const grades = await classesServices.getClassCurSize(state.gradeId);
             console.log(studentClass);
-            let getClassNotFull = data.filter((item) => {
-                if (item.name !== studentClass && item.curSize < item.maxSize) {
+            let getClassNotFull = grades?.data.filter((item) => {
+                if (
+                    item.name !== classes.data.name &&
+                    item.curSize < item.maxSize
+                ) {
                     return item.name;
                 }
             });
             getClassNotFull = getClassNotFull.map((item) => item.name);
             console.log(getClassNotFull);
+            setStudentClass(classes.data.name);
             setClassOptions(getClassNotFull);
-            setCurrentSizeClass(data);
+            setCurrentSizeClass(grades?.data);
         } catch (e) {
             console.log(e);
             setCurrentSizeClass([]);
             setClassOptions([]);
+            setStudentClass("");
         }
     }
     async function getStudent() {
         try {
             const { data } = await studentServices.getListStudents(id);
             const classes = await classesServices.getClass(data.classId);
+            console.log(classes.data.name);
             setStudentClass(classes.data.name);
         } catch (e) {
             console.log(e);
@@ -59,10 +65,19 @@ const GradesEdit = () => {
         }
     }
     useLayoutEffect(() => {
-        getStudent();
+        async function init() {
+            await getStudent();
+        }
+        init();
     }, []);
     useEffect(() => {
-        getClassCurSize();
+        async function init() {
+            await getStudent();
+            await getClassCurSize();
+        }
+        init()
+            .then((res) => console.log(res))
+            .catch((e) => console.log(e));
     }, []);
     return (
         <>

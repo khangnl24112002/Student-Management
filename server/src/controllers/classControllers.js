@@ -60,10 +60,8 @@ const deleteClassController = async (req, res) => {
     }
 };
 const updateClassController = async (req, res) => {
-    const { id } = req.query;
-    console.log(id);
     try {
-        const classes = await updateClassService(+id, req.body);
+        const classes = await updateClassService(req.body);
         res.status(200).send({
             statusCode: 200,
             data: classes,

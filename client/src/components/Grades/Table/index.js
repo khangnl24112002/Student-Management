@@ -37,7 +37,7 @@ const Table = ({
                     <div className={styles.col}>Date</div>
                     <div className={styles.col}>Address</div>
                 </div>
-                {data?.slice(10).map((x, index) => (
+                {data.map((x, index) => (
                     <Row
                         item={x}
                         key={index}

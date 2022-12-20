@@ -59,8 +59,8 @@ const NameAndDescription = ({ className }) => {
         }
         try {
             addNotification("New student created", 0);
-            // const student = await studentServices.createStudent(userInfo);
-            // console.log(student);
+            const student = await studentServices.createStudent(userInfo);
+            console.log(student);
         } catch (e) {
             addNotification("Something went wrong", 3);
             console.log(e);

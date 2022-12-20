@@ -1,0 +1,55 @@
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: student_management
+-- ------------------------------------------------------
+-- Server version	8.0.30
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Courses`
+--
+
+DROP TABLE IF EXISTS `Courses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Courses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `gradeId` int DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `passScore` float DEFAULT 5,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Courses`
+--
+
+LOCK TABLES `Courses` WRITE;
+/*!40000 ALTER TABLE `Courses` DISABLE KEYS */;
+INSERT INTO `Courses` VALUES (1,1,'Math','2022-11-16 13:28:49','2022-11-16 13:28:49',5),(2,1,'Physics','2022-11-16 13:31:00','2022-11-16 13:31:00',5),(3,1,'Chemistry','2022-11-16 13:31:11','2022-11-16 13:31:11',5),(4,1,'Biology','2022-11-16 13:31:22','2022-11-16 13:31:22',5),(5,1,'History','2022-11-16 13:31:31','2022-11-16 13:31:31',5),(6,1,'Geography','2022-11-16 13:31:54','2022-11-16 13:31:54',5),(7,1,'Literature','2022-11-16 13:32:12','2022-11-16 13:32:12',5),(8,1,'Ethics','2022-11-16 13:32:34','2022-11-16 13:32:34',5),(9,1,'Physical Education','2022-11-16 13:32:59','2022-11-16 13:32:59',5),(10,2,'Math','2022-11-16 13:33:15','2022-11-16 13:33:15',5),(11,2,'Physics','2022-11-16 13:33:26','2022-11-16 13:33:26',5),(12,2,'Chemistry','2022-11-16 13:33:32','2022-11-16 13:33:32',5),(13,2,'Biology','2022-11-16 13:33:41','2022-11-16 13:33:41',5),(14,2,'History','2022-11-16 13:33:50','2022-11-16 13:33:50',5),(15,2,'Geography','2022-11-16 13:34:11','2022-11-16 13:34:11',5),(16,2,'Literature','2022-11-16 13:34:29','2022-11-16 13:34:29',5),(17,2,'Ethics','2022-11-16 13:34:36','2022-11-16 13:34:36',5),(18,2,'Physical Education','2022-11-16 13:34:46','2022-11-16 13:34:46',5),(19,3,'Math','2022-11-16 13:35:02','2022-11-16 13:35:02',5),(20,3,'Physics','2022-11-16 13:35:13','2022-11-16 13:35:13',5),(21,3,'Chemistry','2022-11-16 13:35:18','2022-11-16 13:35:18',5),(22,3,'Biology','2022-11-16 13:35:25','2022-11-16 13:35:25',5),(23,3,'History','2022-11-16 13:35:31','2022-11-16 13:35:31',5),(24,3,'Geography','2022-11-16 13:35:43','2022-11-16 13:35:43',5),(25,3,'Literature','2022-11-16 13:35:51','2022-11-16 13:35:51',5),(26,3,'Ethics','2022-11-16 13:35:57','2022-11-16 13:35:57',5),(27,3,'Physical Education','2022-11-16 13:36:09','2022-11-16 13:36:09',5),(28,3,'Physical Education','2022-11-16 14:16:56','2022-11-16 14:16:56',5);
+/*!40000 ALTER TABLE `Courses` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-11-17 18:56:23

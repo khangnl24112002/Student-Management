@@ -15,18 +15,20 @@ const StudentDetail = () => {
         async function getStudentDetail() {
             try {
                 let student = await studentServices.getAVGStudent(id);
+                console.log(term);
                 let data = student.data.filter((item) => {
                     if (term === "Term 1") {
-                        if (item.hasOwnProperty("semesterOne")) {
+                        if (item.semesterOne === 1) {
                             return item;
                         }
                     } else {
-                        if (item.hasOwnProperty("semesterTwo")) {
+                        if (item.semesterTwo === 1) {
                             return item;
                         }
                     }
                 });
                 student.data = data;
+                console.log(data);
                 setStudent(student);
             } catch (e) {
                 console.log(e);

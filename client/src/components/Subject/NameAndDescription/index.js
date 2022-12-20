@@ -5,9 +5,12 @@ import styles from "./NameAndDescription.module.sass";
 import Card from "../../../components/Card";
 import TextInput from "../../../components/TextInput";
 import Row from "../Table/Row";
+import { addNotification } from "../../../utils/toastify";
+import { studentServices } from "../../../services/studentServices";
 const NameAndDescription = ({ className }) => {
     const { pathname, state } = useLocation();
     const { item } = state;
+    const [student, setStudent] = useState(item);
     const [studentScore, setStudentScore] = useState({
         exam15: item.exam15,
         exam45: item.exam45,
@@ -16,15 +19,28 @@ const NameAndDescription = ({ className }) => {
         studentId: item.studentId,
         courseId: item.courseId,
     });
+    console.log(item);
     const handleChange = (e) => {
         setStudentScore({
             ...studentScore,
             [e.target.name]: +e.target.value,
         });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(studentScore);
+        try {
+            const update = await studentServices.updateScore(
+                item.id,
+                studentScore
+            );
+            update.data.avatar = "/images/content/male.png";
+            setStudent(update.data);
+            addNotification("Updated", 0);
+        } catch (e) {
+            console.log(e);
+            addNotification(e, 3);
+        }
     };
 
     return (
@@ -34,7 +50,7 @@ const NameAndDescription = ({ className }) => {
             classTitle="title-green"
         >
             <form className={styles.description} onSubmit={handleSubmit}>
-                <Row item={item} key={0} />
+                <Row item={student} key={0} />
                 <TextInput
                     className={styles.field}
                     label="Exam 15"
@@ -42,8 +58,10 @@ const NameAndDescription = ({ className }) => {
                     type="number"
                     placeholder="Value"
                     required
-                    defaultValue={studentScore.exam15}
+                    defaultValue={student.exam15}
                     handleChange={handleChange}
+                    min="0"
+                    max="10"
                 />
                 <TextInput
                     className={styles.field}
@@ -51,9 +69,11 @@ const NameAndDescription = ({ className }) => {
                     label="Exam 45"
                     type="number"
                     placeholder="Value"
-                    defaultValue={studentScore.exam45}
+                    defaultValue={student.exam45}
                     required
                     handleChange={handleChange}
+                    min="0"
+                    max="10"
                 />
                 <TextInput
                     className={styles.field}
@@ -62,8 +82,10 @@ const NameAndDescription = ({ className }) => {
                     type="number"
                     placeholder="Value"
                     required
-                    defaultValue={studentScore.examFinal}
+                    defaultValue={student.examFinal}
                     handleChange={handleChange}
+                    min="0"
+                    max="10"
                 />
                 <div className={styles.buttonContainer}>
                     <button className={cn("button")} type="submit">
