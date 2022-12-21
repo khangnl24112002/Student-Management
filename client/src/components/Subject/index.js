@@ -67,6 +67,7 @@ const Subject = () => {
                             : "/images/content/female.png",
                     };
                 });
+                console.log(data.data);
                 setStudents(data.data);
             } catch (e) {
                 console.log(e);

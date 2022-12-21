@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Sidebar.module.sass";
 import { Link, NavLink } from "react-router-dom";
 import cn from "classnames";
 import Icon from "../Icon";
 import Dropdown from "./Dropdown";
+import {
+    classesServices,
+    coursesServices,
+} from "../../services/studentServices";
 // import Image from "../Image";
 const teacherAction = ["Home", "Courses"];
-const Sidebar = ({ className, onClose, data }) => {
+const Sidebar = ({ className, onClose, data, dropdown }) => {
     const [visibleHelp, setVisibleHelp] = useState(false);
     const [visible, setVisible] = useState(false);
+
     let navigation = [
         {
             title: "Home",
@@ -58,48 +63,49 @@ const Sidebar = ({ className, onClose, data }) => {
             title: "Courses",
             slug: "courses",
             icon: "pie-chart",
-            dropdown: [
-                {
-                    title: "Math",
-                    url: "/subject/Math",
-                },
-                {
-                    title: "Physics",
-                    url: "/subject/Physics",
-                },
-                {
-                    title: "Chemistry",
-                    url: "/subject/Chemistry",
-                },
-                {
-                    title: "Biology",
-                    url: "/subject/Biology",
-                },
-                {
-                    title: "History",
-                    url: "/subject/History",
-                },
-                {
-                    title: "Geography",
-                    url: "/subject/Geography",
-                },
-                {
-                    title: "Literature",
-                    url: "/subject/Literature",
-                },
-                {
-                    title: "Civics",
-                    url: "/subject/Civics",
-                },
-                {
-                    title: "Physical Education",
-                    url: "/subject/PhysicalEducation",
-                },
-                {
-                    title: "Create Course",
-                    url: "/createCourse",
-                },
-            ],
+            // dropdown: [
+            //     {
+            //         title: "Math",
+            //         url: "/subject/Math",
+            //     },
+            //     {
+            //         title: "Physics",
+            //         url: "/subject/Physics",
+            //     },
+            //     {
+            //         title: "Chemistry",
+            //         url: "/subject/Chemistry",
+            //     },
+            //     {
+            //         title: "Biology",
+            //         url: "/subject/Biology",
+            //     },
+            //     {
+            //         title: "History",
+            //         url: "/subject/History",
+            //     },
+            //     {
+            //         title: "Geography",
+            //         url: "/subject/Geography",
+            //     },
+            //     {
+            //         title: "Literature",
+            //         url: "/subject/Literature",
+            //     },
+            //     {
+            //         title: "Civics",
+            //         url: "/subject/Civics",
+            //     },
+            //     {
+            //         title: "Physical Education",
+            //         url: "/subject/PhysicalEducation",
+            //     },
+            //     {
+            //         title: "Create Course",
+            //         url: "/createCourse",
+            //     },
+            // ],
+            dropdown: dropdown ? dropdown : [],
         },
         {
             title: "Student Admission",

@@ -82,25 +82,52 @@ const updateCourseService = (data) => {
         }
     });
 };
+function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+}
+
 const getCoursesSummaryService = (courseName, semesterOne, semesterTwo) => {
     return new Promise(async (resolve, reject) => {
-        results = [];
-        const classes = await Class.findAll();
-        numOfClasses = classes.length;
+        let results = [];
+        //const classes = await Class.findAll();
+        let courses = await Course.findAll({
+            where: {
+                name: courseName,
+            },
+            raw: true,
+        });
+        courses = getUniqueListBy(courses, "gradeId");
+        courses = getUniqueListBy(courses, "id");
+        console.log(courses);
+        let classes = await Promise.all(
+            courses.map(async (item) => {
+                const a = await Class.findAll({
+                    where: {
+                        gradeId: item.gradeId,
+                    },
+                    raw: true,
+                });
+                return a;
+            })
+        );
+        classes = classes.flat(1);
+        //classes = classes[0];
+        //console.log(classes);
+        let numOfClasses = classes.length;
         for (let i = 0; i < numOfClasses; i++) {
-            course = await Course.findOne({
+            let course = await Course.findOne({
                 where: {
                     name: courseName,
                     gradeId: classes[i].gradeId,
                 },
+                raw: true,
             });
-
-            passCount = 0;
+            let passCount = 0;
 
             let students = await Student.findAll({
                 where: { classId: classes[i].id },
             });
-            numOfStudents = students.length;
+            let numOfStudents = students.length;
             for (let j = 0; j < numOfStudents; j++) {
                 let score = await Score.findOne({
                     where: {
