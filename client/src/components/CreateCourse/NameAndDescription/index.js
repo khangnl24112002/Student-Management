@@ -125,7 +125,7 @@ const NameAndDescription = ({ className }) => {
         e.preventDefault();
         try {
             console.log(valueChange);
-            const data = await classesServices.updateClass(valueChange);
+            const data = await coursesServices.updateCourse(valueChange);
             addNotification("Update successfully", 0);
         } catch (e) {
             addNotification("Something went wrong", 3);
