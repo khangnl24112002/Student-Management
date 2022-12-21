@@ -138,7 +138,7 @@ const getNotFullClassesService = async () => {
     return new Promise(async (resolve, reject) => {
         try {
             const classes = await sequelize.query(
-                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM student_management.Classes as cl where cl.numberStudent> (SELECT count(*) FROM student_management.Students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM student_management.Students as st2 where st2.classId = cl.id) = 0 ",
+                "SELECT DISTINCT cl.id, cl.gradeId, cl.name, cl.numberStudent, cl.createdAt, cl.updatedAt FROM Classes as cl where cl.numberStudent> (SELECT count(*) FROM Students as st2 where st2.classId = cl.id) or (SELECT count(*) FROM Students as st2 where st2.classId = cl.id) = 0 ",
                 {
                     type: QueryTypes.SELECT,
                 }
