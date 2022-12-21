@@ -18,6 +18,7 @@ const NameAndDescription = ({ className }) => {
     const [grade, setGrade] = React.useState("10");
     const [nameClass, setNameClass] = useState("10A1");
     const [curNumberStudent, setCurNumberStudent] = useState(0);
+    console.log(curNumberStudent);
     const [classId, setClassId] = useState([]);
     const [id, setId] = useState(0);
     const handleChangeTab = (event, newValue) => {
@@ -32,7 +33,7 @@ const NameAndDescription = ({ className }) => {
     const [valueChange, setValueChange] = useState({
         name: "",
         numberStudent: null,
-        id: 0,
+        id: 1,
     });
     useEffect(() => {
         async function getClass() {
@@ -82,6 +83,10 @@ const NameAndDescription = ({ className }) => {
     }, [grade]);
     const handleSubmitChange = async (e) => {
         e.preventDefault();
+        if (valueChange.numberStudent < curNumberStudent) {
+            addNotification("New number student must be greater!!", 1);
+            return;
+        }
         try {
             console.log(valueChange);
             const data = await classesServices.updateClass(valueChange);
@@ -128,6 +133,7 @@ const NameAndDescription = ({ className }) => {
         getClassCurSize();
         const data = classId.filter((item) => item.name === nameClass);
         if (data.length !== 0) {
+            console.log(data[0].id);
             setId(data[0].id);
             setValueChange({
                 ...valueChange,
@@ -195,6 +201,7 @@ const NameAndDescription = ({ className }) => {
                                     placeholder="Value"
                                     required
                                     handleChange={handleChangeCreate}
+                                    min="0"
                                 />
                             </div>
                             <div
@@ -270,6 +277,7 @@ const NameAndDescription = ({ className }) => {
                                 type="text"
                                 placeholder="Value"
                                 handleChange={handleChangeEdit}
+                                min={curNumberStudent + 1}
                             />
 
                             <div className={styles.buttonContainer}>

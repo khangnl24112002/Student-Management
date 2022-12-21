@@ -260,6 +260,8 @@ const NameAndDescription = ({ className }) => {
                                     placeholder="Value"
                                     required
                                     handleChange={handleChangeCreate}
+                                    min="0"
+                                    max="10"
                                 />
                             </div>
                             <div

@@ -58,26 +58,31 @@ const updateClassService = async (data) => {
     const { gradeId, name, numberStudent, id } = data;
     let classes = null;
     return new Promise(async (resolve, reject) => {
-        if (id === "undefined") {
-            classes = await Class.findOne({
-                where: { name: name },
-            });
-        } else {
-            classes = await Class.findOne({
-                where: { id },
-            });
-        }
+        try {
+            if (id === "undefined") {
+                classes = await Class.findOne({
+                    where: { name: name },
+                });
+            } else {
+                console.log(id);
+                classes = await Class.findOne({
+                    where: { id },
+                });
+            }
 
-        if (classes) {
-            await classes.update({
-                gradeId,
-                name,
-                numberStudent,
-            });
-            await classes.save();
-            resolve(classes);
-        } else {
-            reject({});
+            if (classes) {
+                await classes.update({
+                    gradeId,
+                    name,
+                    numberStudent,
+                });
+                await classes.save();
+                resolve(classes);
+            } else {
+                reject({});
+            }
+        } catch (e) {
+            console.log(e);
         }
     });
 };

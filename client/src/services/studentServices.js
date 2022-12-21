@@ -31,7 +31,7 @@ export const classesServices = {
     getCourses: (id) => axiosClient.get(`courses/getCourses?id=${id}`),
     getClassNotFull: () => axiosClient.get(`classes/getNotFullClasses`),
     createClass: (params) => axiosClient.post(`classes/createClass`, params),
-    updateClass: (params) => axiosClient.post(`classes/updateClass`, params),
+    updateClass: (params) => axiosClient.put(`classes/updateClass`, params),
     getClassNumberStudent: (name) =>
         axiosClient.get(`classes/getClassNumberStudent?name=${name}`),
 };
