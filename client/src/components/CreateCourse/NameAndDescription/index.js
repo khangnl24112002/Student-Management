@@ -34,12 +34,12 @@ const NameAndDescription = ({ className }) => {
     const [allClasses, setAllClasses] = useState([]);
     const [valueCreate, setValueCreate] = useState({
         name: "",
-        passScore: null,
+        passScore: undefined,
         gradeId: null,
     });
     const [valueChange, setValueChange] = useState({
         name: "",
-        passScore: null,
+        passScore: undefined,
         id: 1,
     });
     useEffect(() => {

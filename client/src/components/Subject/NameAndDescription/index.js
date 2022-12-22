@@ -19,7 +19,6 @@ const NameAndDescription = ({ className }) => {
         studentId: item.studentId,
         courseId: item.courseId,
     });
-    console.log(item);
     const handleChange = (e) => {
         setStudentScore({
             ...studentScore,
@@ -28,12 +27,11 @@ const NameAndDescription = ({ className }) => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(item.id);
         console.log(studentScore);
+        const id = !!item.id ? item.id : item.studentId;
         try {
-            const update = await studentServices.updateScore(
-                item.id,
-                studentScore
-            );
+            const update = await studentServices.updateScore(id, studentScore);
             update.data.avatar = "/images/content/male.png";
             setStudent(update.data);
             addNotification("Updated", 0);
