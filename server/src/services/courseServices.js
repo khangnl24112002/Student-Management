@@ -1,4 +1,5 @@
 const { Course, Class, Student, Score } = require("../models/index");
+const { createScoreService } = require("./scoreServices")
 
 const createCourseService = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -9,6 +10,32 @@ const createCourseService = (data) => {
                 gradeId,
                 name,
             });
+            //add all student in this grade to this course
+            let classes = await Class.findAll({
+                where: {
+                    gradeId: gradeId
+                }
+            })
+            for (let i =0 ; i<classes.length; i++)
+            {
+                let students = await Student.findAll({
+                    where: {
+                        classId: classes[i].id
+                    }
+                })
+
+                for (let j=0; j<students.length; j++)
+                {
+                    let data1 = {studentId:students[j].id, courseName: name, exam15: null, exam45: null, examFinal: null, semesterOne: 1, semesterTwo: 0}
+                    console.log(data1)
+
+                    let data2 = {studentId:students[j].id, courseName: name, exam15: null, exam45: null, examFinal: null, semesterOne: 0, semesterTwo: 1}
+
+                    createScoreService(data1)
+                    createScoreService(data2)
+                }
+            }  
+
             resolve(newCourse);
         } catch (e) {
             reject(false);
