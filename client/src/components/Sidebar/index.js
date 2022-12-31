@@ -115,7 +115,6 @@ const Sidebar = ({ className, onClose, data, dropdown }) => {
             hideArrow: true,
         },
     ];
-    console.log(data);
     const { courseName, teacher, user } = data;
     if (user?.role === "teacher") {
         navigation = navigation.filter((item) => {
@@ -134,7 +133,6 @@ const Sidebar = ({ className, onClose, data, dropdown }) => {
         });
     }
 
-    console.log(navigation);
     return (
         <>
             <div

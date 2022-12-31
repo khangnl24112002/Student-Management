@@ -54,7 +54,6 @@ const NameAndDescription = ({ className }) => {
                     };
                 });
                 setClassId(listIdClass);
-                console.log(listIdClass);
                 setAllClasses(listClass);
             } catch (e) {
                 console.log(e);
@@ -64,7 +63,6 @@ const NameAndDescription = ({ className }) => {
     }, []);
     const handleChangeCreate = (e) => {
         let value = e.target.value;
-        console.log(e.target.name, e.target.value);
         if (e.target.name === "passScore") {
             value = +value;
         }
@@ -91,7 +89,6 @@ const NameAndDescription = ({ className }) => {
     useEffect(() => {
         async function getCourses() {
             let gradeId = 0;
-            console.log(gradeChange);
             if (gradeChange === "10") {
                 gradeId = 1;
             } else if (gradeChange === "11") {
@@ -99,7 +96,6 @@ const NameAndDescription = ({ className }) => {
             } else {
                 gradeId = 3;
             }
-            console.log(gradeId);
             try {
                 const { data } = await coursesServices.getCoursesByGrade(
                     gradeId
@@ -124,7 +120,6 @@ const NameAndDescription = ({ className }) => {
     const handleSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            console.log(valueChange);
             const data = await coursesServices.updateCourse(valueChange);
             addNotification("Update successfully", 0);
         } catch (e) {
@@ -135,7 +130,6 @@ const NameAndDescription = ({ className }) => {
     const handleSubmitCreate = async (e) => {
         e.preventDefault();
         try {
-            console.log(valueCreate);
             const newCourse = await coursesServices.createCourse(valueCreate);
             addNotification("New course created", 0);
         } catch (e) {
@@ -145,7 +139,6 @@ const NameAndDescription = ({ className }) => {
     };
     const handleChangeEdit = (e) => {
         let value = e.target.value;
-        console.log(e.target.name, e.target.value);
 
         if (e.target.name === "passScore") {
             value = +value;
@@ -177,9 +170,7 @@ const NameAndDescription = ({ className }) => {
         }
     }, [nameClass]);
     useEffect(() => {
-        console.log(course);
         let gradeId = 0;
-        console.log(gradeChange);
         if (gradeChange === "10") {
             gradeId = 1;
         } else if (gradeChange === "11") {
@@ -190,8 +181,6 @@ const NameAndDescription = ({ className }) => {
         const id = listIdCourse.filter(
             (item) => item.name === course && item.gradeId === gradeId
         );
-        console.log(listIdCourse);
-        console.log(gradeChange, course, id);
         if (id.length !== 0) {
             //setCourseId(id[0].id);
             setValueChange({

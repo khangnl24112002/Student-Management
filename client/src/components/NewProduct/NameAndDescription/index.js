@@ -23,7 +23,6 @@ const NameAndDescription = ({ className }) => {
                 const classes = await classesServices.getClassNotFull();
                 const { data } = classes;
                 const listNameClasses = data.map((item) => item.name);
-                console.log(listNameClasses);
                 setClasses(listNameClasses);
             } catch (e) {
                 setClasses([]);
@@ -43,8 +42,6 @@ const NameAndDescription = ({ className }) => {
 
     const handleChange = (e) => {
         userInfo[e.target.name] = e.target.value;
-        console.log(e.target.name, e.target.value);
-        console.log(userInfo);
         setUserInfo({
             ...userInfo,
         });

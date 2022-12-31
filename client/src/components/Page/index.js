@@ -45,7 +45,6 @@ const Page = ({ wide, children, title }) => {
                     title: "Create Course",
                     url: "/createCourse",
                 });
-                console.log(dropdown);
                 setCourse(dropdown);
             } catch (e) {
                 console.log(e);

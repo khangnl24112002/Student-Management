@@ -25,13 +25,22 @@ const createStudentController = async (req, res) => {
 const deteteStudentController = async (req, res) => {
     const { id } = req.query;
     try {
-        await deleteStudentService(id);
-        res.status(200).send({
-            statusCode: 200,
-            message: "Successfully.",
-        });
+        console.log(id);
+        if (isNaN(id)) {
+            res.status(404).send({
+                statusCode: 404,
+                "message:": "Not found.",
+            });
+        } else {
+            const student = await deleteStudentService(id);
+            console.log("1", student);
+            res.status(200).send({
+                statusCode: 200,
+                message: "Successfully.",
+            });
+        }
     } catch (e) {
-        console.log(e);
+        console.log("35", e);
         res.status(404).send({
             statusCode: 404,
             "message:": "Not found.",

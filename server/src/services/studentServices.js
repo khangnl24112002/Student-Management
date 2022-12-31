@@ -1,4 +1,4 @@
-const { Student, Class, Score,Grade, sequelize } = require("../models/index");
+const { Student, Class, Score, Grade, sequelize } = require("../models/index");
 const { QueryTypes } = require("sequelize");
 const Sequelize = require("sequelize");
 const { getAVGScoreService } = require("./scoreServices");
@@ -8,9 +8,7 @@ const createStudentService = async (data) => {
 
     return new Promise(async (resolve, reject) => {
         try {
-
             if (!isNumeric(classId)) {
-
                 const { id } = await Class.findOne({
                     where: {
                         name: classId,
@@ -35,21 +33,21 @@ const createStudentService = async (data) => {
             //     }
             // );
 
-            
-            age = getAge(date)
+            age = getAge(date);
             const { gradeId } = await Class.findOne({
                 where: {
                     id: classId,
-                }
-            })
+                },
+            });
 
-            const {minOld, maxOld} = await Grade.findOne({
+            const { minOld, maxOld } = await Grade.findOne({
                 where: {
-                    id:gradeId
-                }
-            })
-            
-            if (count >= numberStudent || age>maxOld || age<minOld) reject(false);
+                    id: gradeId,
+                },
+            });
+
+            if (count >= numberStudent || age > maxOld || age < minOld)
+                reject(false);
             else {
                 const newStudent = await Student.create({
                     name,
@@ -81,27 +79,34 @@ function getAge(dateString) {
 }
 
 function isNumeric(str) {
-    if (typeof str != "string") return false // we only process strings!  
-    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-           !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-  }
+    if (typeof str != "string") return false; // we only process strings!
+    return (
+        !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+        !isNaN(parseFloat(str))
+    ); // ...and ensure strings of whitespace fail
+}
 
 const deleteStudentService = async (studentId) => {
     return new Promise(async (resolve, reject) => {
-        await Score.destroy({
-            where: { studentId: studentId },
-        });
+        try {
+            await Score.destroy({
+                where: { studentId: studentId },
+            });
 
-        const student = await Student.findOne({
-            where: {
-                id: studentId,
-            },
-        });
-        if (student) {
-            await student.destroy({ force: true });
-            resolve(true);
-        } else {
-            reject(false);
+            const student = await Student.findOne({
+                where: {
+                    id: studentId,
+                },
+            });
+            if (student) {
+                await student.destroy({ force: true });
+                resolve(true);
+            } else {
+                reject(false);
+            }
+        } catch (e) {
+            console.log("112", e);
+            reject(e);
         }
     });
 };

@@ -18,7 +18,6 @@ const NameAndDescription = ({ className }) => {
     const [grade, setGrade] = React.useState("10");
     const [nameClass, setNameClass] = useState("10A1");
     const [curNumberStudent, setCurNumberStudent] = useState(0);
-    console.log(curNumberStudent);
     const [classId, setClassId] = useState([]);
     const [id, setId] = useState(0);
     const handleChangeTab = (event, newValue) => {
@@ -47,7 +46,6 @@ const NameAndDescription = ({ className }) => {
                     };
                 });
                 setClassId(listIdClass);
-                console.log(listIdClass);
                 setAllClasses(listClass);
             } catch (e) {
                 console.log(e);
@@ -57,7 +55,6 @@ const NameAndDescription = ({ className }) => {
     }, []);
     const handleChangeCreate = (e) => {
         let value = e.target.value;
-        console.log(e.target.name, e.target.value);
         if (e.target.name === "numberStudent") {
             value = +value;
         }
@@ -88,7 +85,6 @@ const NameAndDescription = ({ className }) => {
             return;
         }
         try {
-            console.log(valueChange);
             const data = await classesServices.updateClass(valueChange);
             addNotification("Update successfully", 0);
         } catch (e) {
@@ -99,7 +95,6 @@ const NameAndDescription = ({ className }) => {
     const handleSubmitCreate = async (e) => {
         e.preventDefault();
         try {
-            console.log(valueCreate);
             const newClass = await classesServices.createClass(valueCreate);
             addNotification("New class created", 0);
         } catch (e) {
@@ -109,7 +104,6 @@ const NameAndDescription = ({ className }) => {
     };
     const handleChangeEdit = (e) => {
         let value = e.target.value;
-        console.log(e.target.name, e.target.value);
 
         if (e.target.name === "numberStudent") {
             value = +value;

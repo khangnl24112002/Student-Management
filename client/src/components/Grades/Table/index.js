@@ -11,8 +11,6 @@ const Table = ({
     data,
     nameClass,
     gradeId,
-    isDelete,
-    setDelete,
     setStudentDelete,
 }) => {
     const [activeId, setActiveId] = useState(data[0]?.id);
@@ -54,8 +52,6 @@ const Table = ({
                         pathname={pathname}
                         nameClass={nameClass}
                         gradeId={gradeId}
-                        isDelete={isDelete}
-                        setDelete={setDelete}
                         setStudentDelete={setStudentDelete}
                     />
                 ))}

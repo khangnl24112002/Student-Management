@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useParams, useLocation } from "react-router-dom";
 import cn from "classnames";
 import Dropdown from "../Dropdown";
@@ -13,13 +13,13 @@ import moment from "moment";
 import { addNotification } from "../../utils/toastify";
 const Grades = () => {
     const [className, setClass] = useState("");
+    const isInitialMount = useRef(true);
     const [classOptions, setClassOptions] = useState([]);
     const [visible, setVisible] = useState(false);
     const [studentsList, setStudentList] = useState([]);
     const { gradeId } = useParams();
     const { pathname } = useLocation();
     const [space, typeEdit, id] = pathname.split("/");
-    const [isDelete, setDelete] = useState(false);
     const [studentDelete, setStudentDelete] = useState({});
     async function getClassesByGrade() {
         try {
@@ -66,18 +66,24 @@ const Grades = () => {
     useEffect(() => {
         getStudentsByClass();
     }, [className]);
-    useEffect(() => {
-        async function deleteStudent() {
-            try {
-                const { id } = studentDelete;
-                const student = await studentServices.deleteStudent(+id);
-                getStudentsByClass();
-                addNotification("Delete successfully", 0);
-            } catch (e) {
-                addNotification("Can not delele student.", 3);
-            }
+    async function deleteStudent() {
+        try {
+            const { id } = studentDelete;
+            const student = await studentServices.deleteStudent(+id);
+            getStudentsByClass();
+            addNotification("Delete successfully", 0);
+        } catch (e) {
+            addNotification("Can not delele student.", 3);
         }
-        deleteStudent();
+    }
+    useEffect(() => {
+        console.log("change");
+        console.log(studentDelete);
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            deleteStudent();
+        }
     }, [studentDelete]);
     return (
         <>
@@ -99,8 +105,6 @@ const Grades = () => {
             >
                 <div className={cn(styles.row, { [styles.flex]: visible })}>
                     <Table
-                        isDelete={isDelete}
-                        setDelete={setDelete}
                         className={styles.table}
                         activeTable={visible}
                         setActiveTable={setVisible}

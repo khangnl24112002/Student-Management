@@ -24,7 +24,6 @@ const NameAndDescription = ({ className }) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(studentScore);
     };
 
     return (

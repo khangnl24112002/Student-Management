@@ -25,7 +25,6 @@ const Subject = () => {
         semesterTwo: 0,
     });
 
-    console.log(formCourseUpdate);
     useEffect(() => {
         setFormCourseUpdate({
             ...formCourseUpdate,
@@ -37,7 +36,6 @@ const Subject = () => {
     const handleChange = (item) => (e) => {};
     const clickHandler = async (e) => {
         try {
-            console.log(formCourseUpdate);
             const { data } = await coursesServices.getSemesterSummary(
                 formCourseUpdate.semesterOne,
                 formCourseUpdate.semesterTwo

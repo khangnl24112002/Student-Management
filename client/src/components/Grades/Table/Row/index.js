@@ -23,7 +23,7 @@ const Row = ({
         });
     };
     const handleDelete = (e) => {
-        setDelete(true);
+        console.log(item);
         setStudentDelete(item);
     };
     const navigate = useNavigate();

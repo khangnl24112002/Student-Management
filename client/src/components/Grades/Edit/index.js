@@ -32,7 +32,6 @@ const GradesEdit = () => {
             const classes = await classesServices.getClass(data.classId);
 
             const grades = await classesServices.getClassCurSize(state.gradeId);
-            console.log(studentClass);
             let getClassNotFull = grades?.data.filter((item) => {
                 if (
                     item.name !== classes.data.name &&
@@ -42,7 +41,6 @@ const GradesEdit = () => {
                 }
             });
             getClassNotFull = getClassNotFull.map((item) => item.name);
-            console.log(getClassNotFull);
             setStudentClass(classes.data.name);
             setClassOptions(getClassNotFull);
             setCurrentSizeClass(grades?.data);
