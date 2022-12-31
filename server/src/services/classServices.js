@@ -24,6 +24,12 @@ const createClassService = async (data) => {
     const { gradeId, name, numberStudent } = data;
     return new Promise(async (resolve, reject) => {
         try {
+            const classes = await Class.findAll();
+            classes.forEach((item) => {
+                if (item.name === name) {
+                    reject("Invalid name.");
+                }
+            });
             const newClass = await Class.create({
                 gradeId,
                 numberStudent,

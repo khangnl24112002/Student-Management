@@ -1,5 +1,5 @@
 const { Course, Class, Student, Score } = require("../models/index");
-const { createScoreService } = require("./scoreServices")
+const { createScoreService } = require("./scoreServices");
 
 const createCourseService = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -13,28 +13,41 @@ const createCourseService = (data) => {
             //add all student in this grade to this course
             let classes = await Class.findAll({
                 where: {
-                    gradeId: gradeId
-                }
-            })
-            for (let i =0 ; i<classes.length; i++)
-            {
+                    gradeId: gradeId,
+                },
+            });
+            for (let i = 0; i < classes.length; i++) {
                 let students = await Student.findAll({
                     where: {
-                        classId: classes[i].id
-                    }
-                })
+                        classId: classes[i].id,
+                    },
+                });
 
-                for (let j=0; j<students.length; j++)
-                {
-                    let data1 = {studentId:students[j].id, courseName: name, exam15: null, exam45: null, examFinal: null, semesterOne: 1, semesterTwo: 0}
-                    console.log(data1)
+                for (let j = 0; j < students.length; j++) {
+                    let data1 = {
+                        studentId: students[j].id,
+                        courseName: name,
+                        exam15: 0,
+                        exam45: 0,
+                        examFinal: 0,
+                        semesterOne: 1,
+                        semesterTwo: 0,
+                    };
 
-                    let data2 = {studentId:students[j].id, courseName: name, exam15: null, exam45: null, examFinal: null, semesterOne: 0, semesterTwo: 1}
+                    let data2 = {
+                        studentId: students[j].id,
+                        courseName: name,
+                        exam15: 0,
+                        exam45: 0,
+                        examFinal: 0,
+                        semesterOne: 0,
+                        semesterTwo: 1,
+                    };
 
-                    createScoreService(data1)
-                    createScoreService(data2)
+                    createScoreService(data1);
+                    createScoreService(data2);
                 }
-            }  
+            }
 
             resolve(newCourse);
         } catch (e) {
