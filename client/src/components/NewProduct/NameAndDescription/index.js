@@ -58,12 +58,11 @@ const NameAndDescription = ({ className }) => {
             userInfo.gender = 0;
         }
         try {
-            addNotification("New student created", 0);
             const student = await studentServices.createStudent(userInfo);
-            console.log(student);
-        } catch (e) {
-            addNotification("Something went wrong", 3);
-            console.log(e);
+            addNotification("New student created", 0);
+        } catch (error) {
+            console.log(error);
+            addNotification("Class is full or date of birth is in correct", 3);
         }
     };
     return (
