@@ -27,9 +27,9 @@ const createCourseService = (data) => {
                     let data1 = {
                         studentId: students[j].id,
                         courseName: name,
-                        exam15: 0,
-                        exam45: 0,
-                        examFinal: 0,
+                        exam15: null,
+                        exam45: null,
+                        examFinal: null,
                         semesterOne: 1,
                         semesterTwo: 0,
                     };
@@ -37,9 +37,9 @@ const createCourseService = (data) => {
                     let data2 = {
                         studentId: students[j].id,
                         courseName: name,
-                        exam15: 0,
-                        exam45: 0,
-                        examFinal: 0,
+                        exam15: null,
+                        exam45: null,
+                        examFinal: null,
                         semesterOne: 0,
                         semesterTwo: 1,
                     };
