@@ -43,7 +43,7 @@ CREATE TABLE `Scores` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `scores`
+-- Dumping data for table `Scores`
 --
 
 LOCK TABLES `Scores` WRITE;

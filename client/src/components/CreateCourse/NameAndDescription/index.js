@@ -34,12 +34,12 @@ const NameAndDescription = ({ className }) => {
     const [allClasses, setAllClasses] = useState([]);
     const [valueCreate, setValueCreate] = useState({
         name: "",
-        passScore: null,
+        passScore: undefined,
         gradeId: null,
     });
     const [valueChange, setValueChange] = useState({
         name: "",
-        passScore: null,
+        passScore: undefined,
         id: 1,
     });
     useEffect(() => {
@@ -125,7 +125,7 @@ const NameAndDescription = ({ className }) => {
         e.preventDefault();
         try {
             console.log(valueChange);
-            const data = await classesServices.updateClass(valueChange);
+            const data = await coursesServices.updateCourse(valueChange);
             addNotification("Update successfully", 0);
         } catch (e) {
             addNotification("Something went wrong", 3);
@@ -260,6 +260,8 @@ const NameAndDescription = ({ className }) => {
                                     placeholder="Value"
                                     required
                                     handleChange={handleChangeCreate}
+                                    min="0"
+                                    max="10"
                                 />
                             </div>
                             <div
