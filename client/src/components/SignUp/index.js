@@ -7,13 +7,6 @@ import Entry from "./Entry";
 import Code from "./Code";
 import Image from "../../components/Image";
 
-const items = [
-    "Unlimited product uploads",
-    "Pro tips",
-    "Free forever",
-    "Full author options",
-];
-
 const SignUp = () => {
     const heightWindow = use100vh();
 

@@ -93,7 +93,7 @@ const Entry = (props) => {
         try {
             console.log(data);
             const newUser = await usersServices.register(data);
-            localStorage.setItem("access_token", newUser.token);
+            // localStorage.setItem("access_token", newUser.token);
             navigate("/home");
             addNotification("New Users created", 0);
         } catch (e) {
