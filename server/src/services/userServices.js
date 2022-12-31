@@ -11,6 +11,7 @@ const createUser = async (data) => {
         className,
         courseName,
         gradeId,
+        role,
     } = data;
     return new Promise(async (resolve, reject) => {
         try {
@@ -24,9 +25,11 @@ const createUser = async (data) => {
             } else {
                 const salt = bcrypt.genSaltSync(10);
                 const hashPassword = bcrypt.hashSync(password, salt);
+                const userRole = role ? role : "teacher";
                 const newUser = await User.create({
                     username,
                     password: hashPassword,
+                    role: userRole,
                 });
                 const dataCourse = await Course.findOne({
                     where: {
@@ -64,8 +67,7 @@ const userLogin = async (data) => {
     const { username, password } = data;
     return new Promise(async (resolve, reject) => {
         try {
-
-            console.log(data)
+            console.log(data);
 
             const user = await User.findOne({
                 where: { username },
