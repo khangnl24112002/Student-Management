@@ -11,6 +11,9 @@ const Table = ({
     data,
     nameClass,
     gradeId,
+    isDelete,
+    setDelete,
+    setStudentDelete,
 }) => {
     const [activeId, setActiveId] = useState(data[0]?.id);
 
@@ -36,6 +39,7 @@ const Table = ({
                     <div className={styles.col}>Gender</div>
                     <div className={styles.col}>Date</div>
                     <div className={styles.col}>Address</div>
+                    {/* <div className={styles.col}></div> */}
                 </div>
                 {data.map((x, index) => (
                     <Row
@@ -50,6 +54,9 @@ const Table = ({
                         pathname={pathname}
                         nameClass={nameClass}
                         gradeId={gradeId}
+                        isDelete={isDelete}
+                        setDelete={setDelete}
+                        setStudentDelete={setStudentDelete}
                     />
                 ))}
             </div>

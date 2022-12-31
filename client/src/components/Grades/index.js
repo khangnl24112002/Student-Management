@@ -10,6 +10,7 @@ import {
     studentServices,
 } from "../../services/studentServices";
 import moment from "moment";
+import { addNotification } from "../../utils/toastify";
 const Grades = () => {
     const [className, setClass] = useState("");
     const [classOptions, setClassOptions] = useState([]);
@@ -18,52 +19,66 @@ const Grades = () => {
     const { gradeId } = useParams();
     const { pathname } = useLocation();
     const [space, typeEdit, id] = pathname.split("/");
-
+    const [isDelete, setDelete] = useState(false);
+    const [studentDelete, setStudentDelete] = useState({});
+    async function getClassesByGrade() {
+        try {
+            const { data } = await classesServices.getListClassesByGrades(
+                gradeId
+            );
+            const classes = data.map((item) => {
+                return item.name;
+            });
+            setClass(classes[0]);
+            setClassOptions(classes);
+        } catch (e) {
+            console.log(e);
+            setClass("");
+            setClassOptions([]);
+        }
+    }
     useEffect(() => {
         // call api khi gradeid thay đổi
-        async function getClassesByGrade() {
-            try {
-                const { data } = await classesServices.getListClassesByGrades(
-                    gradeId
-                );
-                const classes = data.map((item) => {
-                    return item.name;
-                });
-                setClass(classes[0]);
-                setClassOptions(classes);
-            } catch (e) {
-                console.log(e);
-                setClass("");
-                setClassOptions([]);
-            }
-        }
 
         getClassesByGrade();
     }, [gradeId]);
-    useEffect(() => {
-        async function getStudentsByClass() {
-            try {
-                const { data } = await studentServices.getStudentsByClass(
-                    className
-                );
-                const students = data.map((student) => {
-                    const date = moment.utc(student.date).format("DD-MM-YYYY");
-                    return {
-                        ...student,
-                        date,
-                        avatar: student.gender
-                            ? "/images/content/male.png"
-                            : "/images/content/female.png",
-                    };
-                });
-                setStudentList(students);
-            } catch (e) {
-                console.log(e);
-                setStudentList([]);
-            }
+    async function getStudentsByClass() {
+        try {
+            const { data } = await studentServices.getStudentsByClass(
+                className
+            );
+            const students = data.map((student) => {
+                const date = moment.utc(student.date).format("DD-MM-YYYY");
+                return {
+                    ...student,
+                    date,
+                    avatar: student.gender
+                        ? "/images/content/male.png"
+                        : "/images/content/female.png",
+                };
+            });
+            setStudentList(students);
+        } catch (e) {
+            console.log(e);
+            setStudentList([]);
         }
+    }
+    useEffect(() => {
         getStudentsByClass();
     }, [className]);
+    useEffect(() => {
+        async function deleteStudent() {
+            try {
+                const { id } = studentDelete;
+                const student = await studentServices.deleteStudent(+id);
+                getStudentsByClass();
+                addNotification("Delete successfully", 0);
+            } catch (e) {
+                addNotification("Can not delele student.", 3);
+            }
+        }
+        deleteStudent();
+    }, [studentDelete]);
     return (
         <>
             <Card
@@ -84,6 +99,8 @@ const Grades = () => {
             >
                 <div className={cn(styles.row, { [styles.flex]: visible })}>
                     <Table
+                        isDelete={isDelete}
+                        setDelete={setDelete}
                         className={styles.table}
                         activeTable={visible}
                         setActiveTable={setVisible}
@@ -91,6 +108,7 @@ const Grades = () => {
                         data={studentsList}
                         nameClass={className}
                         gradeId={gradeId}
+                        setStudentDelete={setStudentDelete}
                     />
                 </div>
             </Card>

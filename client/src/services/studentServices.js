@@ -16,6 +16,8 @@ export const studentServices = {
         ),
     createStudent: (params) =>
         axiosClient.post(`students/createStudent`, params),
+    deleteStudent: (id) =>
+        axiosClient.delete(`students/deleteStudent?id=${id}`),
 };
 
 export const classesServices = {

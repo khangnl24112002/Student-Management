@@ -13,11 +13,18 @@ const Row = ({
     pathname,
     gradeId,
     nameClass,
+    isDelete,
+    setDelete,
+    setStudentDelete,
 }) => {
     const handleClick = (id) => {
         navigate(`/edit/${pathname}/${id}`, {
             state: { item, gradeId, nameClass },
         });
+    };
+    const handleDelete = (e) => {
+        setDelete(true);
+        setStudentDelete(item);
     };
     const navigate = useNavigate();
     return (
@@ -49,6 +56,13 @@ const Row = ({
                 <div className={styles.col}>
                     <div className={styles.scoreBold}>{item.address}</div>
                 </div>
+            </div>
+            <div
+                className={styles.row}
+                style={{ cursor: "pointer", margin: "20px" }}
+                onClick={handleDelete}
+            >
+                <div className={styles.scoreBold}>Delete</div>
             </div>
         </>
     );
