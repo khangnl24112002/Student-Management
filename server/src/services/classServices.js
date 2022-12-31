@@ -65,6 +65,10 @@ const updateClassService = async (data) => {
     let classes = null;
     return new Promise(async (resolve, reject) => {
         try {
+            const classes = await Class.findAll();
+            classes.forEach((item) => {
+                if (item.name === name) reject("Invalid name.");
+            });
             if (id === "undefined") {
                 classes = await Class.findOne({
                     where: { name: name },
